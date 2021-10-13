@@ -1,0 +1,8 @@
+t (d)	Activity (microcuries)	Uncertainty (microcuries)
+0	125.2	1.3
+75	102.6	0.9
+150	85.6	1.3
+200	76.9	0.5
+350	51.8	0.7
+400	43.6	2.4
+525	32.6	1.7
