@@ -1,0 +1,7 @@
+*.pdf
+*.png
+*.log
+*.aux
+*.synctex.gz
+/Lab Notebook
+/Jupyter Notebooks/.ipynb_checkpoints
