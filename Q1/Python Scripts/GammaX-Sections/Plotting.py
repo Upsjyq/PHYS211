@@ -60,7 +60,43 @@ def data_fit(p0,func,xvar, yvar, err,tmi=0):
 
 
 
-## Data Input
+## Data - Na
+
+Emitter= 'Na-22'
+peaks = [511, 1270]
+numPeaks = len(peaks)
+
+filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-data.txt'
+
+X = np.arange(numPeaks)
+numplates = np.arange(numPeaks)
+times = np.arange(numPeaks)
+G = np.arange(numPeaks)
+N = np.arange(numPeaks)
+
+X[0], numPlates[0], times[0],  G[0], N[0], G[1], N[1] = np.loadtxt(filePath, unpack=True, skiprows=2)
+
+print(G[0]) #random test
+
+X[1] = X[0]
+numPlates[1] = numPlates[0]
+times[1] = times[0]
+
+print(np.arange(numPeaks))
+
+#dN = [np.sqrt(N[i]) for i in np.arange(numPeaks)]
+#dT = [np.ones(times[i]) for i in np.arange(numPeaks)]
+
+dN1 = np.sqrt(N1)
+dN2 = np.sqrt(N2)
+
+dT1 = np.ones(len(times1))
+dT2 = np.ones(len(times2))
+
+
+## Data - Cs
+
+Emitter = 'Cs-137'
 
 N1 = np.array([1732,2307, 1793, 1462, 769])
 N2 = np.array([4523, 6450, 7862, 7152, 3628, 1895, 8961])
@@ -73,39 +109,80 @@ times2 = np.array([137, 202, 252, 246, 207, 211, 282])
 dT1 = np.ones(len(times))
 dT2 = np.ones(len(times2))
 
+
+## Data - Ba
+
+Emitter='Ba-133'
+
+N1 = np.array([1732,2307, 1793, 1462, 769])
+N2 = np.array([4523, 6450, 7862, 7152, 3628, 1895, 8961])
+dN1 = np.sqrt(N1)
+dN2 = np.sqrt(N2)
+
+
+times = np.array([137, 233, 202, 252, 246])
+times2 = np.array([137, 202, 252, 246, 207, 211, 282])
+dT1 = np.ones(len(times))
+dT2 = np.ones(len(times2))
+
+
 ## Processing
 
-R1 = N1/times
+R1 = N1/times1
 R2 = N2/times2
 
-dR1 = np.zeros(len(times))
-for i in range(len(times)):
-    dR1[i] = R1[i] * np.sqrt( (dT1[i]/times[i])**2 + (dN1[i]/N1[i])**2 )
+dR1 = np.zeros(len(times1))
+for i in range(len(times1)):
+    dR1[i] = R1[i] * np.sqrt( (dT1[i]/times1[i])**2 + (dN1[i]/N1[i])**2 )
 
 dR2 = np.zeros(len(times2))
 for i in range(len(times2)):
     dR2[i] = R2[i] * np.sqrt( (dT2[i]/times2[i])**2 + (dN2[i]/N2[i])**2 )
 
-X1 = np.array([0, 0.6, 1, 3,7])
-X2 = np.array([0, 1, 3,7, 32, 67, 0.6])
-
 ## Fitting
 guess = [0,0,0]
-pf1, pferr1, chisq1, dof1 = data_fit(guess,expfunc_bg, X1, R1, dR1)
-pf2, pferr2, chisq2, dof2 = data_fit(guess,expfunc_bg, X2, R2, dR2)
+pf, pferr, chisq, dof = [], [], [], []
+for i in range(len(X)):
+    pf0, pferr0, chisq0, dof0 = data_fit(guess,expfunc_bg, X1, R1, dR1)
+    pf.append(pf0)
+    pferr.append(pferr0)
+    chisq.append(chisq0)
+    dof.append(dof0)
 
 
 ## Plotting
 plt.clf()
+fig = plt.figure(figsize = (12,5))
+ax1 = fig.add_subplot(1,2,1)
+ax2 = fig.add_subplot(1,2,2)
+
+fig.suptitle('Attenuation of %s Gammas by Al Shielding' %Emitter)
 
 xSmooth = np.linspace(min(X2), max(X2), num=100)
 
-plt.plot(xSmooth, expfunc_bg(pf1, xSmooth))
-plt.plot(xSmooth, expfunc_bg(pf2, xSmooth))
+ax1.plot(xSmooth, expfunc_bg(pf1, xSmooth), 'r--', label='fit')
+ax2.plot(xSmooth, expfunc_bg(pf2, xSmooth), 'r--', label='fit')
+
+ax1.errorbar(X1, R1, dR1, fmt='k.', ls='none', capsize=3, label='data')
+ax2.errorbar(X2, R2, dR2, fmt='k.', ls='none', capsize=3, label='data')
 
 
-plt.errorbar(X1, R1, dR1, color='r', ls='none', capsize=3)
-plt.errorbar(X2, R2, dR2, color='b', ls='none', capsize=3)
+ax1.set_title('Gamma Transmission Intensity, Al --E= %d keV' %peaks[0])
+ax1.set_xlabel('Shielding Thickness, x (mm)')
+ax1.set_ylabel('Count Rate, R (counts/s)')
+textAnnot = '$R(x) = R_0 e^{-\lambda x} + B$ \n'
+textAnnot += '$R_0 = %.0f \pm %.0f$ counts s$^{-1}$ \n' %(pf[0], pferr[0])
+textAnnot += '$\lambda = $%.2e$ \pm $%.2e mm$^{-1}$ \n' %(pf[1], pferr[1])
+textAnnot += '$B = %.0f \pm %.0f$ counts s$^{-1}$ \n' %(pf[2], pferr[2])
+textAnnot += '$\chi^{2} = %f$ \n' %chisq
+textAnnot += '$N = %d$ (dof) \n' %dof
+textAnnot += '$\chi^{2} \, N^{-1} = %.2f$ \n' %(chisq / dof)
+
+
+ax2.set_title('Transmission, %d keV' %peaks[1])
+ax2.set_xlabel('Shielding thickness (mm)')
+ax2.set_ylabel('Net tranmission rate (counts/s)')
+
 plt.show()
 
 ## Example
@@ -141,6 +218,6 @@ ax1.text(placementArr[0], placementArr[2], textAnnot, transform=ax.transAxes , f
 ax1.legend(loc='upper right')
 
 
-## Calculations
+## Scrap paper
 count = 1300
 print(np.sqrt(count)/count)

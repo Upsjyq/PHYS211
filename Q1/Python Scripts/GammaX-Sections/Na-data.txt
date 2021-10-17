@@ -1,0 +1,8 @@
+Data for the sodium samples. Format is:
+thickness(mm)  numPlates(for error purposes)  activeTime  511keV[G  N]  1270keV[G  N]
+0 0 178 18703 16074 3188 2363
+16 1 172 14219 11794 2471 2018
+32 1 201 11819 9191 2297 1804
+67 1 224 8259 5980 1516 1023
+83 2 324 8729 6103 1787 1334
+115 3 356 6247 3722 1316 1106
