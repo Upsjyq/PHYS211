@@ -68,30 +68,33 @@ numPeaks = len(peaks)
 
 filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-data.txt'
 
-X = np.arange(numPeaks)
-numplates = np.arange(numPeaks)
-times = np.arange(numPeaks)
-G = np.arange(numPeaks)
-N = np.arange(numPeaks)
+#generate empty lists of appropriate lengths
+X = [0 for i in range(numPeaks)]
+numPlates = X.copy()
+times = X.copy()
+G = X.copy()
+N = X.copy()
 
-X[0], numPlates[0], times[0],  G[0], N[0], G[1], N[1] = np.loadtxt(filePath, unpack=True, skiprows=2)
+X0, numPlates0, times0,  G0, N0, G1, N1 = np.loadtxt(filePath, unpack=True, skiprows=2)
 
-print(G[0]) #random test
+X[0] = X0
+X[1] = X0
+numPlates[0] = numPlates0
+numPlates[1] = numPlates0
+times[0] = times0
+times[1] = times0
+G[0] = G0
+G[1] = G1
+N[0] = N0
+N[1] = N1
 
-X[1] = X[0]
-numPlates[1] = numPlates[0]
-times[1] = times[0]
+print(G) #random test
 
-print(np.arange(numPeaks))
 
-#dN = [np.sqrt(N[i]) for i in np.arange(numPeaks)]
-#dT = [np.ones(times[i]) for i in np.arange(numPeaks)]
+dN = [np.sqrt(N[i]) for i in np.arange(numPeaks)]
+dT = [np.ones(len(times[i]), dtype='int32') for i in np.arange(numPeaks)]
 
-dN1 = np.sqrt(N1)
-dN2 = np.sqrt(N2)
-
-dT1 = np.ones(len(times1))
-dT2 = np.ones(len(times2))
+print(dN)
 
 
 ## Data - Cs
@@ -128,22 +131,29 @@ dT2 = np.ones(len(times2))
 
 ## Processing
 
-R1 = N1/times1
-R2 = N2/times2
+R = [N[i]/times[i] for i in range(numPeaks)]
+print(R)
+#R1 = N1/times1
+#R2 = N2/times2
 
-dR1 = np.zeros(len(times1))
-for i in range(len(times1)):
-    dR1[i] = R1[i] * np.sqrt( (dT1[i]/times1[i])**2 + (dN1[i]/N1[i])**2 )
+dR = [[] for i in range(numPeaks)]
+#dR1 = np.zeros(len(times[0]))
 
-dR2 = np.zeros(len(times2))
-for i in range(len(times2)):
-    dR2[i] = R2[i] * np.sqrt( (dT2[i]/times2[i])**2 + (dN2[i]/N2[i])**2 )
+for j in range(numPeaks):
+    for i in range(len(times[j])):
+        dR[j].append(R[j][i] * np.sqrt( (dT[j][i]/times[j][i])**2 + (dN[j][i]/N[j][i])**2 ))
+
+print(dR)
+
+#dR2 = np.zeros(len(times2))
+#for i in range(len(times2)):
+#    dR2[i] = R2[i] * np.sqrt( (dT2[i]/times2[i])**2 + (dN2[i]/N2[i])**2 )
 
 ## Fitting
 guess = [0,0,0]
 pf, pferr, chisq, dof = [], [], [], []
 for i in range(len(X)):
-    pf0, pferr0, chisq0, dof0 = data_fit(guess,expfunc_bg, X1, R1, dR1)
+    pf0, pferr0, chisq0, dof0 = data_fit(guess,expfunc_bg, X[i], R[i], dR[i])
     pf.append(pf0)
     pferr.append(pferr0)
     chisq.append(chisq0)
@@ -152,36 +162,35 @@ for i in range(len(X)):
 
 ## Plotting
 plt.clf()
-fig = plt.figure(figsize = (12,5))
-ax1 = fig.add_subplot(1,2,1)
-ax2 = fig.add_subplot(1,2,2)
+fig, ax = plt.subplots(figsize = (12,5), nrows = int(len(pf)/2), ncols=2)
+#ax1 = fig.add_subplot(1,2,1)
+#ax2 = fig.add_subplot(1,2,2)
 
 fig.suptitle('Attenuation of %s Gammas by Al Shielding' %Emitter)
 
-xSmooth = np.linspace(min(X2), max(X2), num=100)
+xSmooth = [np.linspace(min(X[i]), max(X[i]), num=100) for i in range(len(X))]
 
-ax1.plot(xSmooth, expfunc_bg(pf1, xSmooth), 'r--', label='fit')
-ax2.plot(xSmooth, expfunc_bg(pf2, xSmooth), 'r--', label='fit')
+ax[0].plot(xSmooth[0], expfunc_bg(pf[0], xSmooth[0]), 'r--', label='fit')
+ax[1].plot(xSmooth[1], expfunc_bg(pf[1], xSmooth[1]), 'r--', label='fit')
 
-ax1.errorbar(X1, R1, dR1, fmt='k.', ls='none', capsize=3, label='data')
-ax2.errorbar(X2, R2, dR2, fmt='k.', ls='none', capsize=3, label='data')
+ax[0].errorbar(X[0], R[0], dR[0], fmt='k.', ls='none', capsize=3, label='data')
+ax[1].errorbar(X[1], R[1], dR[1], fmt='k.', ls='none', capsize=3, label='data')
 
-
-ax1.set_title('Gamma Transmission Intensity, Al --E= %d keV' %peaks[0])
-ax1.set_xlabel('Shielding Thickness, x (mm)')
-ax1.set_ylabel('Count Rate, R (counts/s)')
+ax[0].set_title('Gamma Transmission Intensity, Al --E= %d keV' %peaks[0])
+ax[0].set_xlabel('Shielding Thickness, x (mm)')
+ax[0].set_ylabel('Count Rate, R (counts/s)')
 textAnnot = '$R(x) = R_0 e^{-\lambda x} + B$ \n'
-textAnnot += '$R_0 = %.0f \pm %.0f$ counts s$^{-1}$ \n' %(pf[0], pferr[0])
-textAnnot += '$\lambda = $%.2e$ \pm $%.2e mm$^{-1}$ \n' %(pf[1], pferr[1])
-textAnnot += '$B = %.0f \pm %.0f$ counts s$^{-1}$ \n' %(pf[2], pferr[2])
-textAnnot += '$\chi^{2} = %f$ \n' %chisq
-textAnnot += '$N = %d$ (dof) \n' %dof
-textAnnot += '$\chi^{2} \, N^{-1} = %.2f$ \n' %(chisq / dof)
+textAnnot += '$R_0 = %.0f \pm %.0f$ counts s$^{-1}$ \n' %(pf[0][0], pferr[0][0])
+textAnnot += '$\lambda = $%.2e$ \pm $%.2e mm$^{-1}$ \n' %(pf[0][1], pferr[0][1])
+textAnnot += '$B = %.0f \pm %.0f$ counts s$^{-1}$ \n' %(pf[0][2], pferr[0][2])
+textAnnot += '$\chi^{2} = %f$ \n' %chisq[0]
+textAnnot += '$N = %d$ (dof) \n' %dof[0]
+textAnnot += '$\chi^{2} \, N^{-1} = %.2f$ \n' %(chisq[0] / dof[0])
 
 
-ax2.set_title('Transmission, %d keV' %peaks[1])
-ax2.set_xlabel('Shielding thickness (mm)')
-ax2.set_ylabel('Net tranmission rate (counts/s)')
+ax[1].set_title('Transmission, %d keV' %peaks[1])
+ax[1].set_xlabel('Shielding thickness (mm)')
+ax[1].set_ylabel('Net tranmission rate (counts/s)')
 
 plt.show()
 
