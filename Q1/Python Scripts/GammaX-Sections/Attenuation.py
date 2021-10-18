@@ -90,13 +90,13 @@ G[1] = G1
 N[0] = N0
 N[1] = N1
 
-print(G) #random test
+print(N[0]) #random test
 
 
 dN = [np.sqrt(N[i]) for i in np.arange(numPeaks)]
 dT = [np.ones(len(times[i]), dtype='int32') for i in np.arange(numPeaks)]
 
-print(dN)
+print(dN[0])
 
 
 ## Data - Cs
@@ -184,11 +184,15 @@ dT = [np.ones(len(X[1]), dtype='int32') for i in np.arange(numPeaks)]
 
 print(dN)
 
+guess[0] = [350, 10, 0]
+guess[1] = [120, 10, 0]
+guess[2] = [80, 10, 0]
+
 
 ## Processing
 
 R = [N[i]/times[i] for i in range(numPeaks)]
-print(R)
+print(R[0])
 #R1 = N1/times1
 #R2 = N2/times2
 
@@ -199,17 +203,17 @@ for j in range(numPeaks):
     for i in range(len(times[j])):
         dR[j].append(R[j][i] * np.sqrt( (dT[j][i]/times[j][i])**2 + (dN[j][i]/N[j][i])**2 ))
 
-print(dR)
+print(dR[0])
 
 #dR2 = np.zeros(len(times2))
 #for i in range(len(times2)):
 #    dR2[i] = R2[i] * np.sqrt( (dT2[i]/times2[i])**2 + (dN2[i]/N2[i])**2 )
 
 ## Fitting
-guess = [0,0,0]
+#guess = [0,0,0]
 pf, pferr, chisq, dof = [], [], [], []
 for i in range(len(X)):
-    pf0, pferr0, chisq0, dof0 = data_fit(guess,expfunc_bg, X[i], R[i], dR[i])
+    pf0, pferr0, chisq0, dof0 = data_fit(guess[i],expfunc_bg, X[i], R[i], dR[i])
     pf.append(pf0)
     pferr.append(pferr0)
     chisq.append(chisq0)
@@ -227,6 +231,7 @@ fig, ax = plt.subplots(figsize = (6*numCols,5* numRows), nrows = numRows, ncols=
 print()
 
 fig.suptitle('Attenuation of %s Gammas by Al Shielding' %Emitter)
+fig.tight_layout(pad=5)
 
 xSmooth = [np.linspace(min(X[i]), max(X[i]), num=100) for i in range(len(X))]
 
@@ -245,8 +250,7 @@ for i, axis in enumerate(fig.axes):
     axis.set_title('Gamma Transmission Intensity, Al --E= %d keV' %peaks[i])
     axis.set_xlabel('Shielding Thickness, x (mm)')
     axis.set_ylabel('Count Rate, R (counts/s)')
-    textAnnot = 'TEMPORARY VERSION - SUBJECT TO CHANGE \n'
-    textAnnot += '$R(x) = R_0 e^{-\lambda x} + B$ \n'
+    textAnnot = '$R(x) = R_0 e^{-\lambda x} + B$ \n'
     textAnnot += '$R_0 = %.1f \pm %.1f$ counts s$^{-1}$ \n' %(pf[i][0], pferr[i][0])
     textAnnot += '$\lambda = $%.2e$ \pm $%.2e mm$^{-1}$ \n' %(pf[i][1], pferr[i][1])
     textAnnot += '$B = %.1f \pm %.1f$ counts s$^{-1}$ \n' %(pf[i][2], pferr[i][2])

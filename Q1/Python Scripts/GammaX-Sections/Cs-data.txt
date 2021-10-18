@@ -1,0 +1,9 @@
+Data for the cesium samples. Format is: (0s means no entry)
+thickness(mm) ActiveTime 32keV[G  N]  662kev[G  N]
+0 137 2533 1686 5128 4513
+1 202 3090 1793 7298 6450
+3 252 3011 1462 9013 7862
+7 246 2123 769 8001 7152
+32 207 0 0 4291 3628
+67 211 0 0 2382 1895
+0.6 282 0 0 10293 8961
