@@ -59,6 +59,10 @@ def data_fit(p0,func,xvar, yvar, err,tmi=0):
     return pf, pferr, chisq, dof
 
 
+#for comparing attenuation coefficients with literature values
+coeffs = []
+dcoeffs = []
+energies = []
 
 ## Data - Na
 
@@ -93,10 +97,16 @@ N[1] = N1
 print(N[0]) #random test
 
 
-dN = [np.sqrt(N[i]) for i in np.arange(numPeaks)]
+dN = [np.sqrt(abs(N[i]) + G[i]) for i in np.arange(numPeaks)]
 dT = [np.ones(len(times[i]), dtype='int32') for i in np.arange(numPeaks)]
 
+
+guess = []
+guess.append([30, 1, 1])
+guess.append([80, 1, 1])
+
 print(dN[0])
+
 
 
 ## Data - Cs
@@ -136,8 +146,12 @@ N[1] = N1
 print(times[0])
 
 
-dN = [np.sqrt(N[i]) for i in np.arange(numPeaks)]
+dN = [np.sqrt(abs(N[i]) + G[i]) for i in np.arange(numPeaks)]
 dT = [np.ones(len(times[i]), dtype='int32') for i in np.arange(numPeaks)]
+
+guess = []
+guess.append([80,1,1])
+guess.append([30,1,1])
 
 #print(dN)
 
@@ -184,9 +198,10 @@ dT = [np.ones(len(X[1]), dtype='int32') for i in np.arange(numPeaks)]
 
 print(dN)
 
-guess[0] = [350, 10, 0]
-guess[1] = [120, 10, 0]
-guess[2] = [80, 10, 0]
+guess = []
+guess.append([350, 10, 0])
+guess.append([120, 10, 0])
+guess.append([80, 10, 0])
 
 
 ## Processing
@@ -220,18 +235,37 @@ for i in range(len(X)):
     dof.append(dof0)
 
 
+#for comparing attenuation coefficients with the literature values
+
+isIncluded = True
+for i in peaks:
+    if(i not in energies):
+        isIncluded = False
+        break
+
+if not isIncluded:
+    for i in range(len(peaks)):
+        energies.append(peaks[i])
+        coeffs.append(pf[i][1])
+        dcoeffs.append(pferr[i][1])
+
+print(energies)
+print(coeffs)
+
 ## Plotting
 plt.clf()
 numCols = 2
-numRows = int(len(pf)/numCols+1)
-textPlacement = [[.4, .9], [.4, .9], [.4, .9]]
+numRows = int((len(pf)+1)/numCols)
+textPlacement = [[.4, .91], [.4, .91], [.4, .91]]
 
-fig, ax = plt.subplots(figsize = (6*numCols,5* numRows), nrows = numRows, ncols=numCols)
-
-print()
+fig, ax = plt.subplots(figsize = (12,5*numRows), nrows = numRows, ncols=numCols)
+if(numPeaks%2 == 1):
+    fig.delaxes(ax[numRows-1][1])
 
 fig.suptitle('Attenuation of %s Gammas by Al Shielding' %Emitter)
-fig.tight_layout(pad=5)
+
+if(numRows > 1):
+    fig.tight_layout(pad=5)
 
 xSmooth = [np.linspace(min(X[i]), max(X[i]), num=100) for i in range(len(X))]
 
@@ -266,7 +300,7 @@ for i, axis in enumerate(fig.axes):
 #ax[1].set_xlabel('Shielding thickness (mm)')
 #ax[1].set_ylabel('Net tranmission rate (counts/s)')
 
-plt.savefig(imageName)
+#plt.savefig(imageName)
 plt.show()
 
 

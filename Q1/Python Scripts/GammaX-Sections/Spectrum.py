@@ -91,13 +91,14 @@ plt.clf()
 
 xSmooth = np.linspace(ROI[0], ROI[1], 200)
 
+saveFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-Spectrum.png'
+
 plt.rcParams["figure.figsize"] = (12,6)
 plt.plot(X, N, 'b.', markersize = 2, label='counts')
 plt.plot(XRestr, gaussianBG(pf, XRestr), 'k--', linewidth = 1, label='Gaussian Fit, 511keV')
 
-
-
 plt.legend()
+plt.savefig(saveFile)
 plt.show()
 
 ## Plotting - Gaussian
@@ -105,6 +106,8 @@ plt.clf()
 
 fig = plt.figure(figsize=(12,6))
 ax = plt.axes()
+
+saveFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-Spectrum Restricted.png'
 
 xSmooth = np.linspace(ROI[0], ROI[1], 200)
 textPlacement = [.62, .77]
@@ -135,4 +138,5 @@ fig.text(textPlacement2[0], textPlacement2[1], textAnnot2,
 
 ax.legend(loc='upper right')
 
+plt.savefig(saveFile)
 plt.show()
