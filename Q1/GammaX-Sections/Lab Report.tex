@@ -1,0 +1,80 @@
+\documentclass[letter]{article}
+	% basic article document class
+	% use percent signs to make comments to yourself -- they will not show up.
+
+\usepackage{changepage}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+	% packages that allow mathematical formatting
+
+\usepackage{graphicx}
+	% package that allows you to include graphics
+	
+\usepackage{pgfplots}
+
+
+\usepackage{setspace}
+	% package that allows you to change spacing
+
+\onehalfspacing
+	% text become 1.5 spaced
+
+\usepackage{fullpage}
+	% package that specifies normal margins
+	
+%\makeatletter
+%\newcommand{\xRightarrow}[2][]{\ext@arrow 0359\Rightarrowfill@{#1}{#2}}
+%\makeatother
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\DeclareMathOperator{\SPAN}{span}
+\DeclareMathOperator{\HESS}{Hess}
+\DeclareMathOperator{\DIAM}{diam}
+\newcommand{\PD}[2][]{\frac{ \partial {#1} }{ \partial {#2} } }
+\newcommand{\BVEC}[1]{\boldsymbol{#1}}
+\newcommand{\CONTRA}{\Rightarrow\!\Leftarrow}
+
+
+%hyperref-compatible custom float tagging. Place command before caption
+\makeatletter \newcommand{\floattag}[1]{
+   \@namedef{the\@captype}{#1}%
+   \@namedef{theH\@captype}{#1}%
+   \addtocounter{\@captype}{-1}} 
+\makeatother
+
+
+\usepackage{graphicx}
+\graphicspath{ {C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Jupyter Notebooks/} }
+\usepackage{lipsum}
+
+\newcommand{\X}{\mathbf{x}}
+\newcommand{\Y}{\mathbf{y}}
+\newcommand{\BV}[1]{\hat{\mathbf{#1}}}
+\newcommand{\IP}[1]{\langle #1 \rangle}
+
+%a ~ can replace a space in text mode to prevent a line break at that space.
+
+\begin{document}
+	% line of code telling latex that your document is beginning
+
+%Title section
+\begin{center}
+	{\large PHYS 211 Gamma Cross-Sections Lab Report}
+	
+	Jack Dewhurst \hspace{1cm}
+	25 October 2021
+	
+	\vspace{5mm}
+\end{center}
+	
+%end title section
+
+
+
+\end{document}
+	% line of code telling latex that your document is ending. If you leave this out, you'll get an error

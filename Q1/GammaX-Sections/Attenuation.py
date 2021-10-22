@@ -70,9 +70,9 @@ Emitter= 'Na-22'
 peaks = [511, 1270]
 numPeaks = len(peaks)
 
-filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-data.txt'
+filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Na-data.txt'
 
-imageName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-attenuation.png'
+imageName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Na-attenuation.png'
 
 #generate empty lists of appropriate lengths
 X = [0 for i in range(numPeaks)]
@@ -115,9 +115,9 @@ Emitter = 'Cs-137'
 peaks = [31, 662]
 numPeaks = len(peaks)
 
-filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Cs-data.txt'
+filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Cs-data.txt'
 
-imageName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Cs-attenuation.png'
+imageName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Cs-attenuation.png'
 
 #generate empty lists of appropriate lengths
 X = [0 for i in range(numPeaks)]
@@ -162,9 +162,9 @@ Emitter= 'Ba-133'
 peaks = [31, 81, 356]
 numPeaks = len(peaks)
 
-filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Ba-data.txt'
+filePath = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Ba-data.txt'
 
-imageName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Ba-attenuation.png'
+imageName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Ba-attenuation.png'
 
 #generate empty lists of appropriate lengths
 X = [0 for i in range(numPeaks)]
