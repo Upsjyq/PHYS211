@@ -61,6 +61,24 @@ pLB, = plt.plot(NistVals[0][eminIndex:emaxIndex], NISTLB[eminIndex:emaxIndex], l
 vals = plt.errorbar(energies, coeffs, dcoeffs, fmt='r.', lw=1, markersize=2, capsize=3)
 
 plt.legend( [pCent, (pUB, pLB), vals], ['NIST Reported Values', 'NIST Values Error bounds', 'Measured Values'], handler_map={tuple: HandlerTuple(ndivide=None)}, loc='upper right')
-plt.savefig(savePath)
+#plt.savefig(savePath)
 plt.show()
 
+
+## Linear Interpolation
+
+def interpolate(energy):
+    #find which two points 'energy' is between:
+    j1 = 0
+    j2 = 0
+    for i in range(len(NistVals[0])):
+        if NistVals[0][i] >= energy:
+            j1 = i-1
+            j2 = i
+            break
+
+
+    #interpolate lambda
+    t = (float(energy) - NistVals[0][j1]) / (NistVals[0][j2] - NistVals[0][j1])
+    out = t * NistVals[1][j2] + (1-t)* NistVals[1][j1]
+    return out

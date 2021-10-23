@@ -208,19 +208,41 @@ Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that 
 
 One of the goals of this experiment was to compare our empirical findings with the literature values for linear attenuation published by the National Institute of Standards and Technology (NIST). We used the provided files of linear attenuation coefficients for aluminum at various energy levels. In cases in which the provided energy values did not match the energies used in our experiment, we found a `literature' value by simple linear interpolation between two adjacent data points.
 
-We present our values and errors against the NIST values in table \ref{tab:NISTComp}.
+We present our values of linear attenuation coefficients against the NIST values in table \ref{tab:NISTComp}.
 
-%table
+\begin{table}[h] 
+\centering  \begin{tabular}{ c  c  c  c  c  }
+Energy (\unit{\kilo\electronvolt}) & $\lambda_E$ (\unit{\per\mm}) & $\lambda_N$ (\unit{\per\mm}) \\ [.25em]
+\hline 
+31 (Cs) & 0.365 & 0.279 \\
+31 (Ba) & 0.213 & 0.279 \\
+81 & 0.0488 & 0.0541 \\
+356 & 0.0290 & 0.0266 \\
+511 & 0.0196 & 0.0226 \\
+662 & 0.0187 & 0.0202 \\
+1270 & 0.0185 & 0.0147
+\end{tabular}
+\caption{Empirical attenuation coefficients ($\lambda_E$) against NIST values ($\lambda_N$) at various energies. The two samples taken at \qty{31}{\kilo\electronvolt} are marked with the element used for that sample.}
+\label{tab:NISTComp}
+\end{table}
 
-To determine the consistency of our results with the literature values, we calculate a value of $t$, which we define as
+To determine the consistency of our results with the literature values, we calculate for each energy a value of $t$, which we define as
 \begin{align}
-t_{ab}
+t
 &=
-\frac{a - b}{\sqrt{ (\Delta a)^2 + (\Delta b)^2 }}
+\frac{\lambda_E - \lambda_N}{\sqrt{ (\Delta \lambda_E)^2 + (\Delta \lambda_N)^2 }}
 \end{align}
 
 %table
 
+
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{AttenuationComparison.png}
+    \caption{Our measured attenuation coefficients plotted against the NIST reported values. Per the wiki instructions, we have simply used a 3\% error on the NIST data.}
+    \label{fig:AttenComp}
+\end{figure}
+
+In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}. We can see that our data are close to those reported by NIST over the full range, but that our data are much more inconsistent than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment.
 
 
 

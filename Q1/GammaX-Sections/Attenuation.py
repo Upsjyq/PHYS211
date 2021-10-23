@@ -101,8 +101,6 @@ guess = []
 guess.append([30, 1, 1])
 guess.append([80, 1, 1])
 
-print(dN[0])
-
 
 
 ## Data - Cs
@@ -295,7 +293,7 @@ for i, axis in enumerate(fig.axes):
 #ax[1].set_xlabel('Shielding thickness (mm)')
 #ax[1].set_ylabel('Net tranmission rate (counts/s)')
 
-plt.savefig(imageName)
+#plt.savefig(imageName)
 plt.show()
 
 
