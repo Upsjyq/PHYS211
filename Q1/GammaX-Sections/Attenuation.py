@@ -97,10 +97,6 @@ N[1] = N1
 print(N[0]) #random test
 
 
-dN = [np.sqrt(abs(N[i]) + G[i]) for i in np.arange(numPeaks)]
-dT = [np.ones(len(times[i]), dtype='int32') for i in np.arange(numPeaks)]
-
-
 guess = []
 guess.append([30, 1, 1])
 guess.append([80, 1, 1])
@@ -146,9 +142,6 @@ N[1] = N1
 print(times[0])
 
 
-dN = [np.sqrt(abs(N[i]) + G[i]) for i in np.arange(numPeaks)]
-dT = [np.ones(len(times[i]), dtype='int32') for i in np.arange(numPeaks)]
-
 guess = []
 guess.append([80,1,1])
 guess.append([30,1,1])
@@ -193,9 +186,6 @@ print(N)
 print(G) #random test
 
 
-dN = [np.sqrt(abs(N[i]) + G[i]) for i in np.arange(numPeaks)]
-dT = [np.ones(len(X[1]), dtype='int32') for i in np.arange(numPeaks)]
-
 print(dN)
 
 guess = []
@@ -205,6 +195,11 @@ guess.append([80, 10, 0])
 
 
 ## Processing
+
+
+dN = [np.sqrt(2 * G[i] - N[i]) for i in np.arange(numPeaks)]
+dT = [np.ones(len(X[1]), dtype='int32') for i in np.arange(numPeaks)]
+
 
 R = [N[i]/times[i] for i in range(numPeaks)]
 print(R[0])
@@ -286,7 +281,7 @@ for i, axis in enumerate(fig.axes):
     axis.set_ylabel('Count Rate, R (counts/s)')
     textAnnot = '$R(x) = R_0 e^{-\lambda x} + B$ \n'
     textAnnot += '$R_0 = %.1f \pm %.1f$ counts s$^{-1}$ \n' %(pf[i][0], pferr[i][0])
-    textAnnot += '$\lambda = $%.2e$ \pm $%.2e mm$^{-1}$ \n' %(pf[i][1], pferr[i][1])
+    textAnnot += '$\lambda = $%.2e$ \pm $%.1e mm$^{-1}$ \n' %(pf[i][1], pferr[i][1])
     textAnnot += '$B = %.1f \pm %.1f$ counts s$^{-1}$ \n' %(pf[i][2], pferr[i][2])
     textAnnot += '$\chi^{2} = %.2f$ \n' %chisq[i]
     textAnnot += '$N = %d$ (dof) \n' %dof[i]
@@ -300,7 +295,7 @@ for i, axis in enumerate(fig.axes):
 #ax[1].set_xlabel('Shielding thickness (mm)')
 #ax[1].set_ylabel('Net tranmission rate (counts/s)')
 
-#plt.savefig(imageName)
+plt.savefig(imageName)
 plt.show()
 
 

@@ -14,6 +14,10 @@
 	% package that allows you to include graphics
 	
 \usepackage{pgfplots}
+\usepackage{subfig}
+
+
+\usepackage{siunitx}
 
 
 \usepackage{setspace}
@@ -49,7 +53,7 @@
 
 
 \usepackage{graphicx}
-\graphicspath{ {C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Jupyter Notebooks/} }
+\graphicspath{ {C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/} }
 \usepackage{lipsum}
 
 \newcommand{\X}{\mathbf{x}}
@@ -73,6 +77,134 @@
 \end{center}
 	
 %end title section
+
+
+\section{Spectral Analysis of Na-22}
+
+\subsection{Full Spectrum and Visible Features}
+%\begin{figure}[h] \centering
+%    \includegraphics[scale=.5]{Na-Spectrum.png}
+%    \caption{A full decay spectrum of Na-22 up to approximately \qty{1350}{\kilo\electronvolt}, taken over \qty{178}{\second}. Each detector channel corresponds to an energy of approximately 1.3keV. Visible are three main regions of activity: channels 10 to 250, comprising the Compton shelf of the \qty{511}{\kilo\electronvolt} full-energy peak and the backscatter peaks of both full-energy peaks; channels 350 to 415, comprising the full-energy peak at \qty{511}{\kilo\electronvolt}; and channels 880 to 970, comprising the full-energy peak at \qty{1270}{\kilo\electronvolt}.}
+%    \label{fig:NaFullSpec}
+%\end{figure}
+
+Figure (\ref{fig:NaFullSpec}) shows a full decay spectrum of sodium-22. The relationship between detector channel and photon energy is arbitrary, though, so some determination of energy scale was necessary. For the two visible Gaussian peaks, the peak energies agreed with the expected 1270:511 ratio of energies, which led us to conclude that the two clear peaks in the spectrum were the emission peaks we expected.
+
+We then chose our regions of interest for each full-energy peak to include the entire bell curve and approximately 10 channels of both tails of the peak. The software reported both net and gross counts for each region of interest, with the net count having automatically filtered out the background noise in the counts. However, for this filtering to work properly, the regions of interest needed to have some channels of background noise on each end. We limited our padding to roughly 10 channels on each side in order to limit the amount of spurious noise introduced to each region of interest. This choice will be explained somewhat more fully in the discussion of our uncertainties.
+
+ Visible in particular are full-energy peaks at \qty{511}{\kilo\electronvolt} and \qty{1270}{\kilo\electronvolt}, as well as Compton edges for each peak. The Compton shelf for the higher-energy peak is notably less visible, due both to the fact that the higher-energy emission occurs less frequently than the \qty{511}{\kilo\electronvolt} emission and to the fact that higher-energy gamma rays tend to be scattered less than low-energy rays. The second backscatter peak is not visually distinguishable from scattering noise, but its position can be predicted from the relationship $E_\gamma = E_{CE} + E_{BS}$, where $E_\gamma$ is the energy of the photon, $R_{CE}$ is the energy at the Compton edge, and $E_{BS}$ is the energy of the backscatter peak. This relationship is a result of the geometry of the setup, as the backscatter peak is from photons that scatter once (presumably off of the lab bench) and then enter the detector and deposit the energy that remains after a 180 degree deflection, whereas photons in the Compton shelf deposit only the energy \textit{lost} in a deflection, with the maximal deflection of 180 degrees appearing as the Compton edge. Since the full-energy peak and the Compton edge are fully visible for the \qty{1270}{\kilo\electronvolt} mode, we can examine the predicted location of a backscatter peak and we find what appears to be a small peak, but could simply be noise. 
+
+\subsection{Modeling the 511 keV Full-Energy Peak}
+
+To examine more closely the shape of the \qty{511}{\kilo\electronvolt} full-energy peak, we used a least-squares regression to fit a Gaussian distribution with linear background to the full-energy peak, as shown in figure (\ref{fig:NaSpecRestr}).
+
+%figure
+
+We expect the count rates over a given time to obey Poissonian statistics, so for a channel with $k$ counts we find the error to be $\sqrt{k}$. The function used for the regression was given by
+\begin{align}
+N(x)
+&=
+\frac{A}{\sigma \sqrt{2 \pi}} \exp \left( \frac{- (x-\mu)^2}{2 \sigma^2} \right) + bx + c
+\end{align}
+
+where in this case $x$ represents the channel number, and $N(x)$ the expected number of counts on that channel. The determined parameters for the centroid, standard deviation, total counts, and linear background, as well as the uncertainties therein, may be found in figure (\ref{fig:NaSpecRestr}). We find the reduced chi-squared value on this fit to be 1.25, which suggests that the Gaussian function with linear background does model the data well.
+
+Also plotted in figure (\ref{fig:NaSpecRestr}) is the linear background as determined by the fitting function. This background term would be expected to come from two main sources: the Compton shelf of the \qty{1270}{\kilo\electronvolt} emission process; and laboratory noise, particularly other gamma ray sources such as samples from other groups in the same room. In principle, there is no reason for this background to be linear, but based on a spectrum taken with no sample, we concluded that above approximately \qty{300}{\kilo\electronvolt} the laboratory background could be reasonable modeled as linear. However, we could not measure only the portion of the background radiation due to scattering of the \qty{1270}{\kilo\electronvolt} photons, so the background is likely not entirely linear. This non-linearity has particular ramifications for the uncertainties in our measured photon counts, which will be discussed in more detail in section \ref{sss:SysError}.
+
+
+\section{Linear Attenuation Coefficients}
+
+\subsection{Formulae, Uncertainties, and Statistical Error}
+
+\subsubsection{Dominant Sources of Systemic Error} \label{sss:SysError}
+
+The primary source of error in our experiment was introduced by the method of discriminating between background counts and actual transmitted gamma rays. We used the system that the provided software supported natively, which essentially draws a line between the counts at each end of the region of interest. It then reports all counts above this line as `net counts', as well as the total gross count in the region of interest. This is analogous to discarding all data below the gray dashed line in figure (\ref{fig:NaSpecRestr}) for purposes of computation.
+
+Our choice of padding in our region of interest would essentially affect our ability to discriminate between background and net photon counts. In general, we found the background detection to be convex, so picking a large amount of padding around each region of interest would mean both throwing away more useful data \textit{and} introducing spurious background counts that would add to our statistical error. We chose roughly 10 channels as padding to minimize this effect without the software considering parts of our Gaussian regions as background.
+
+The other primary systemic source of error in our system would be caused by other students moving radioactive sources nearby. For instance, if someone carried a sodium button source past us while we were taking data on sodium, it would add false counts to our data. We tried to mitigate this effect by simply not taking data while people were moving around in the lab, but there is likely some distortion from other groups in the same room.
+
+Some systemic error was likely introduced also by the case of the photodetector: the PMT and NaI crystals were enclosed within a sheet of aluminum. This thin layer of shielding should, at each photon energy, result in a constant decrease in scale of the measured counts. However, we are unable to quantify this effect or verify that it is, in fact, uniform. 
+
+Dead times in the detector could also have introduced some systemic error, particularly in the higher count-rate samples. However, the software reported the total dead time as less than the uncertainty in the time measurement, so this effect should be minor.
+
+
+\subsubsection{Statistical Error in Measurement}
+
+We took three classes of measurement over the course of the experiment: thickness of shielding, time elapsed in measurement, and photons counted. In all cases, we measured the thickness of the shielding with precision calipers rated to \qty{0.05}{\mm}, so the error in shielding thickness was negligible compared to the other two sources.
+
+The software reported the live time of the measurement to the second, so our time uncertainty for all measurements is simply \qty{0.5}{\s}.
+
+As previously mentioned, the photon counts are expected to obey Possonian statistics, so the uncertainty in the photon count $k$ is given by $\sqrt{k}$. 
+
+\subsubsection{Data Analysis and Error Propagation}
+
+In order to calculate an attenuation coefficient $\lambda$ for each sample, we fitted an exponential decay function with constant background (representing background radiation that does not vary with shielding thickness) to model transmitted count rate as a function of shielding thickness.
+
+To calculate the transmitted count rate for each sample we took the net counts as reported by the software and divided by the reported live time:
+\begin{equation}
+R = \frac{N}{t}
+\end{equation}
+The software calculates the net count as $N = G - B$ where $G$ is the gross count and $B$ is the background count, which it determines by the method described in section \ref{sss:SysError}. However, both the net and background terms are Poissonian, so they have errors given by
+\begin{align}
+\Delta G &= \sqrt{G} \\
+\Delta B &= \sqrt{B} = \sqrt{G - N}
+\end{align}
+The error in the net count can then be found by
+\begin{align}
+\Delta N 
+&= 
+\sqrt{ (\Delta G)^2 + (\Delta B)^2 - 2 \sigma_{GB}}
+=
+\sqrt{ G + G - N - 2 \sigma_{GB}}
+\end{align}
+where $\sigma_{GB}$ is the covariance of the gross and background counts. The covariance will be positive (increasing the background counts causes to the gross count to increase), but we have no way to estimate it numerically, leaving us to overestimate the error:
+\begin{align}
+\Delta N &\approx \sqrt{2G - N}
+\end{align} 
+The count rate and its uncertainty are then found by
+\begin{equation}
+R = \frac{N}{t}
+\end{equation}
+\begin{equation}
+\Delta R = R \sqrt{ \left( \frac{\Delta N}{N} \right)^2 + \left( \frac{\Delta t}{t} \right)^2}
+\end{equation}
+
+
+\subsection{Empirically Determined Attenuation Coefficients}
+
+For each radioactive sample, we took data at several shielding thicknesses for each major energy peak. From these, we fit an exponential decay function with constant background. We then extract the attenuation coefficient and its error from the fit parameters. Below are presented the fit function for each peak as well as the attenuation coefficients.
+
+%figure
+
+In figure \ref{fig:NaAtten} we observe relatively large reduced chi-squared values. There is no obvious pattern in the residuals to suggest that the exponential with constant background is a poor fit function. The high reduced chi-squared then suggests that there was significant noise in the measurements. This may be because we tested the sodium sample first, when the lab was relatively busy --- other lab groups were moving samples around more at the beginning of the lab section than later on.
+
+%figure
+
+Figure \ref{fig:CsAtten} shows the data taken for the cesium samples. We found in taking data that for the \qty{31}{\kilo\electronvolt} process, the spectrum was too noisy to determine a peak beyond \qty{7}{\mm} of shielding.
+
+%figure
+
+Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that the data for the \qty{31}{\kilo\electronvolt} process becomes completely attenuated at high shielding thickness. In this case, the spectrum was somewhat less noisy, so we still included those points in the data fitting. However, the very small values at the tail of the exponential function still result in a very high reduced chi-squared value for that sample.
+
+
+\subsection{Comparison with NIST Values}
+
+One of the goals of this experiment was to compare our empirical findings with the literature values for linear attenuation published by the National Institute of Standards and Technology (NIST). We used the provided files of linear attenuation coefficients for aluminum at various energy levels. In cases in which the provided energy values did not match the energies used in our experiment, we found a `literature' value by simple linear interpolation between two adjacent data points.
+
+We present our values and errors against the NIST values in table \ref{tab:NISTComp}.
+
+%table
+
+To determine the consistency of our results with the literature values, we calculate a value of $t$, which we define as
+\begin{align}
+t_{ab}
+&=
+\frac{a - b}{\sqrt{ (\Delta a)^2 + (\Delta b)^2 }}
+\end{align}
+
+%table
+
 
 
 

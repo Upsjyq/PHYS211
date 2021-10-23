@@ -65,7 +65,7 @@ def data_fit(p0,func,xvar, yvar, err,tmi=0):
 
 ## Data Entry
 
-dataFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na, 0cm.tsv'
+dataFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Na, 0cm.tsv'
 
 channel, count = np.loadtxt(dataFile, skiprows=24, unpack=True)
 print(count[:10]) #sanity check
@@ -91,11 +91,30 @@ plt.clf()
 
 xSmooth = np.linspace(ROI[0], ROI[1], 200)
 
-saveFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-Spectrum.png'
+saveFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Na-Spectrum.png'
 
 plt.rcParams["figure.figsize"] = (12,6)
+plt.title('Na-22 Decay Spectrum')
+plt.xlabel('Detector Channel')
+plt.ylabel('Photon Counts')
+
+
 plt.plot(X, N, 'b.', markersize = 2, label='counts')
-plt.plot(XRestr, gaussianBG(pf, XRestr), 'k--', linewidth = 1, label='Gaussian Fit, 511keV')
+plt.plot(XRestr, gaussianBG(pf, XRestr), color = 'gray', ls='--', linewidth = 1, label='Gaussian Fit, 511keV')
+
+plt.annotate('Backscatter peak 1', (135,310), xycoords='data', xytext=(.2,.7), textcoords='axes fraction', arrowprops=dict(facecolor='black', arrowstyle='-'), verticalalignment='top', ha='center')
+
+plt.annotate('Compton edge 1', (255,100), xycoords='data', xytext=(.35,.4), textcoords='axes fraction', arrowprops=dict(facecolor='black', arrowstyle='-'), verticalalignment='top', ha='right')
+
+plt.annotate('Compton shelf 1', (125,80), xytext=(125, 30), textcoords='data', arrowprops=dict(arrowstyle='-[,widthB=6.5'), va='bottom', ha='center')
+
+plt.annotate('Full energy peak 1, 511keV', (390,570), xytext=(450,570), arrowprops=dict(arrowstyle='-'))
+
+plt.annotate('Backscatter peak 2', (170, 210), xytext=(.28,.5), textcoords='axes fraction', arrowprops=dict(facecolor='black', arrowstyle='-', relpos=(0,0)), va='bottom', ha='center' )
+
+plt.annotate('Compton edge 2', (775, 28), xytext=(770,160), arrowprops=dict(arrowstyle='-', relpos=(.8,0)), ha='center')
+
+plt.annotate('Full energy peak 2, 1270keV', (928,90), xytext=(910,230), arrowprops=dict(arrowstyle='-'), ha='center')
 
 plt.legend()
 plt.savefig(saveFile)
@@ -107,25 +126,27 @@ plt.clf()
 fig = plt.figure(figsize=(12,6))
 ax = plt.axes()
 
-saveFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Python Scripts/GammaX-Sections/Na-Spectrum Restricted.png'
+saveFile = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/Na-Spectrum Restricted.png'
 
 xSmooth = np.linspace(ROI[0], ROI[1], 200)
-textPlacement = [.62, .77]
-textPlacement2 = [.67, .56]
+textPlacement = [.61, .75]
+textPlacement2 = [.67, .54]
 
 plt.title('Na-22 Spectrum, 511keV peak')
-ax.set_xlabel('Channel (arb units; prop. to energy)')
-ax.set_ylabel('Count')
+ax.set_xlabel('Detector Channel')
+ax.set_ylabel('Photon Count')
 
-ax.errorbar(XRestr, NRestr, dNRestr, fmt = 'b.', linewidth=.5, capsize=0, markersize = 2, label='counts')
-ax.plot(XRestr, gaussianBG(pf, XRestr), 'k--', linewidth = .5, label='Gaussian Fit, 511keV')
+ax.errorbar(XRestr, NRestr, dNRestr, fmt = 'b.', linewidth=.5, capsize=0, markersize = 2, label='Measured Counts')
+ax.plot(XRestr, gaussianBG(pf, XRestr), 'k--', linewidth = 1, label='Gaussian Fit, 511keV')
+
+ax.plot(xSmooth, pf[3] * xSmooth + pf[4], color='gray', ls='--', label = 'Linear background')
 
 textAnnot = '$f(x) = A \, (\sigma \sqrt{2\pi})^{-1} $ exp$[-(x - \mu)^2 (2 \sigma^2)^{-1}] \, + bx + c$ \n'
 textAnnot+= '$ A = %d \pm %d$ counts \n' %(pf[0], pferr[0])
 textAnnot+= '$ \mu = %.2f \pm %.2f $\n' %(pf[1], pferr[1])
 textAnnot+= '$ \sigma = %.2f \pm %.2f $\n' %(pf[2], pferr[2])
 textAnnot+= '$ b = %.2f \pm %.2f $ counts channel$^{-1}$\n' %(pf[3], pferr[3])
-textAnnot+= '$ c = %.2f \pm %.2f $ counts\n' %(pf[4], pferr[4])
+textAnnot+= '$ c = %.0f \pm %.0f $ counts\n' %(pf[4], pferr[4])
 
 textAnnot2 = '$\chi^2 = %.2f$ \n' %(chisq)
 textAnnot2+= '$N = %d$ (dof) \n' %(dof)
