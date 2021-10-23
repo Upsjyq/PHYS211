@@ -82,11 +82,13 @@
 \section{Spectral Analysis of Na-22}
 
 \subsection{Full Spectrum and Visible Features}
+
 %\begin{figure}[h] \centering
 %    \includegraphics[scale=.5]{Na-Spectrum.png}
 %    \caption{A full decay spectrum of Na-22 up to approximately \qty{1350}{\kilo\electronvolt}, taken over \qty{178}{\second}. Each detector channel corresponds to an energy of approximately 1.3keV. Visible are three main regions of activity: channels 10 to 250, comprising the Compton shelf of the \qty{511}{\kilo\electronvolt} full-energy peak and the backscatter peaks of both full-energy peaks; channels 350 to 415, comprising the full-energy peak at \qty{511}{\kilo\electronvolt}; and channels 880 to 970, comprising the full-energy peak at \qty{1270}{\kilo\electronvolt}.}
 %    \label{fig:NaFullSpec}
 %\end{figure}
+
 
 Figure (\ref{fig:NaFullSpec}) shows a full decay spectrum of sodium-22. The relationship between detector channel and photon energy is arbitrary, though, so some determination of energy scale was necessary. For the two visible Gaussian peaks, the peak energies agreed with the expected 1270:511 ratio of energies, which led us to conclude that the two clear peaks in the spectrum were the emission peaks we expected.
 
@@ -98,7 +100,11 @@ We then chose our regions of interest for each full-energy peak to include the e
 
 To examine more closely the shape of the \qty{511}{\kilo\electronvolt} full-energy peak, we used a least-squares regression to fit a Gaussian distribution with linear background to the full-energy peak, as shown in figure (\ref{fig:NaSpecRestr}).
 
-%figure
+%\begin{figure}[h] \centering
+%    \includegraphics[scale=.5]{Na-Spectrum Restricted.png}
+%    \caption{The same spectrum of Na-22, shown from channels 350 to 425. Each point is plotted with Poissonian error $\Delta k = \sqrt{k}$. Also shown are a Gaussian function fit to the full-energy peak, the fit parameters, and the linear background term as determined by the least-squares regression.}
+%    \label{fig:NaSpecRestr}
+%\end{figure}
 
 We expect the count rates over a given time to obey Poissonian statistics, so for a channel with $k$ counts we find the error to be $\sqrt{k}$. The function used for the regression was given by
 \begin{align}
@@ -175,15 +181,27 @@ R = \frac{N}{t}
 
 For each radioactive sample, we took data at several shielding thicknesses for each major energy peak. From these, we fit an exponential decay function with constant background. We then extract the attenuation coefficient and its error from the fit parameters. Below are presented the fit function for each peak as well as the attenuation coefficients.
 
-%figure
+%\begin{figure}[h] \centering
+%    \includegraphics[scale=.5]{Na-Attenuation.png}
+%    \caption{The measured transmission rate for each peak of the Na-22 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data.}
+%    \label{fig:NaAtten}
+%\end{figure}
 
 In figure \ref{fig:NaAtten} we observe relatively large reduced chi-squared values. There is no obvious pattern in the residuals to suggest that the exponential with constant background is a poor fit function. The high reduced chi-squared then suggests that there was significant noise in the measurements. This may be because we tested the sodium sample first, when the lab was relatively busy --- other lab groups were moving samples around more at the beginning of the lab section than later on.
 
-%figure
+%\begin{figure}[h] \centering
+%    \includegraphics[scale=.5]{Cs-Attenuation.png}
+%    \caption{The measured transmission rate for each peak of the Cs-137 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data.}
+%    \label{fig:CsAtten}
+%\end{figure}
 
 Figure \ref{fig:CsAtten} shows the data taken for the cesium samples. We found in taking data that for the \qty{31}{\kilo\electronvolt} process, the spectrum was too noisy to determine a peak beyond \qty{7}{\mm} of shielding.
 
-%figure
+%\begin{figure}[h] \centering
+%    \includegraphics[scale=.5]{Ba-Attenuation.png}
+%    \caption{The measured transmission rate for each peak of the Ba-133 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data. Note that the long tail of small values results in a very high chi-squared value at low energies.}
+%    \label{fig:BaAtten}
+%\end{figure}
 
 Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that the data for the \qty{31}{\kilo\electronvolt} process becomes completely attenuated at high shielding thickness. In this case, the spectrum was somewhat less noisy, so we still included those points in the data fitting. However, the very small values at the tail of the exponential function still result in a very high reduced chi-squared value for that sample.
 
@@ -192,18 +210,58 @@ Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that 
 
 One of the goals of this experiment was to compare our empirical findings with the literature values for linear attenuation published by the National Institute of Standards and Technology (NIST). We used the provided files of linear attenuation coefficients for aluminum at various energy levels. In cases in which the provided energy values did not match the energies used in our experiment, we found a `literature' value by simple linear interpolation between two adjacent data points.
 
-We present our values and errors against the NIST values in table \ref{tab:NISTComp}.
+We present our values of linear attenuation coefficients against the NIST values in table \ref{tab:NISTComp}.
 
-%table
+%\begin{table}[h] 
+%\centering  \begin{tabular}{ c  c  c  c  c  }
+%Energy (\unit{\kilo\electronvolt}) & $\lambda_E$ (\unit{\per\mm}) & $\lambda_N$ (\unit{\per\mm}) \\ [.25em]
+%\hline 
+%31 (Cs) & 0.365 & 0.279 \\
+%31 (Ba) & 0.213 & 0.279 \\
+%81 & 0.0488 & 0.0541 \\
+%356 & 0.0290 & 0.0266 \\
+%511 & 0.0196 & 0.0226 \\
+%662 & 0.0187 & 0.0202 \\
+%1270 & 0.0185 & 0.0147
+%\end{tabular}
+%\caption{Empirical attenuation coefficients ($\lambda_E$) against NIST values ($\lambda_N$) at various energies. The two samples taken at \qty{31}{\kilo\electronvolt} are marked with the element used for that sample.}
+%\label{tab:NISTComp}
+%\end{table}
 
-To determine the consistency of our results with the literature values, we calculate a value of $t$, which we define as
+To determine the consistency of our results with the literature values, we calculate for each energy a value of $t$, which we define as
 \begin{align}
-t_{ab}
+t
 &=
-\frac{a - b}{\sqrt{ (\Delta a)^2 + (\Delta b)^2 }}
+\frac{\lambda_E - \lambda_N}{\sqrt{ (\Delta \lambda_E)^2 + (\Delta \lambda_N)^2 }}
 \end{align}
+We will consider each empirical attenuation coefficient consistent with the literature for $|t| \leq 1$, inconsistent with the literature for $|t| \geq 3$, and inconclusive otherwise. The values are presented in table \ref{tab:tValues}.
 
-%table
+%\begin{table}[h] 
+%\centering  \begin{tabular}{ c  c  c  c  c  } 
+%Energy (\unit{\kilo\electronvolt}) & $\Delta \lambda_E$ (\unit{\per\m}) & $\Delta \lambda_N$ (\unit{\per\m}) & $t$ & Interpretation  \\ \hline
+%31 (Cs) & 55 & 8.4 & 1.6 & Inconclusive \\ 
+%31 (Ba) & 2.5 & 8.4 & -7.5 & Inconsistent \\
+%81 & 1.1 & 1.6 & -2.6 & Inconclusive \\
+%356 & 1.2 & 0.80 & 1.6 & Inconclusive \\
+%511 & 0.58 & 0.68 & -3.4 & Inconsistent \\
+%662 & 2.1 & 0.61 & -0.69 & Consistent \\
+%1270 & 1.65 & 0.44 & 2.2 & Inconclusive 
+%\end{tabular}
+%\caption{Uncertainties in empirical and reference attenuation coefficients. Notice that uncertainties are reported here in \unit{\per\m}, not \unit{\per\mm}. Values of $t$ are also shown, as well as the interpretation of the meaning of the $t$ value.}
+%\label{tab:tValues}
+%\end{table}
+
+Our data appear from this metric very inconsistent with the reference values. However, we note that the difference between the minimum and maximum of our values of $t$ is 9.7, which suggests that there is not a simple systemic disagreement between our data and the reference data.
+
+We also note that the largest value of $|t|$, 7.5, comes from the lowest-energy emission from Ba-133, which did not achieve a very good fit. This sample does not appear to be representative of the group, and if we omit that datum, our $t$ values appear thoroughly inconclusive.
+
+In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}. We can see that our data are close to those reported by NIST over the full range, but that our data are much more inconsistent than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment.
+
+%\begin{figure}[h] \centering
+%    \includegraphics[scale=.5]{AttenuationComparison.png}
+%    \caption{Our measured attenuation coefficients plotted against the NIST reported values. Per the wiki instructions, we have simply used a 3\% error on the NIST data.}
+%    \label{fig:AttenComp}
+%\end{figure}
 
 
 
