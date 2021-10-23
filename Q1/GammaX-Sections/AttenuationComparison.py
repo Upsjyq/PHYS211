@@ -65,7 +65,7 @@ plt.legend( [pCent, (pUB, pLB), vals], ['NIST Reported Values', 'NIST Values Err
 plt.show()
 
 
-## Linear Interpolation
+## Linear Interpolation and T calculation
 
 def interpolate(energy):
     #find which two points 'energy' is between:
@@ -81,4 +81,14 @@ def interpolate(energy):
     #interpolate lambda
     t = (float(energy) - NistVals[0][j1]) / (NistVals[0][j2] - NistVals[0][j1])
     out = t * NistVals[1][j2] + (1-t)* NistVals[1][j1]
+    return out
+
+def calcT(energy, emp, dEmp):
+    ref = interpolate(energy)
+    dRef = .03 * ref
+    print(1000 * dEmp)
+    print(1000 * dRef) #change units mm^{-1} -> m^{-1}
+
+    out = (float(emp) - ref) / np.sqrt( dEmp**2 + dRef **2 )
+    print(out)
     return out

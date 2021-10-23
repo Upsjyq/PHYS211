@@ -232,9 +232,28 @@ t
 &=
 \frac{\lambda_E - \lambda_N}{\sqrt{ (\Delta \lambda_E)^2 + (\Delta \lambda_N)^2 }}
 \end{align}
+We will consider each empirical attenuation coefficient consistent with the literature for $|t| \leq 1$, inconsistent with the literature for $|t| \geq 3$, and inconclusive otherwise. The values are presented in table \ref{tab:tValues}.
 
-%table
+\begin{table}[h] 
+\centering  \begin{tabular}{ c  c  c  c  c  } 
+Energy (\unit{\kilo\electronvolt}) & $\Delta \lambda_E$ (\unit{\per\m}) & $\Delta \lambda_N$ (\unit{\per\m}) & $t$ & Interpretation  \\ \hline
+31 (Cs) & 55 & 8.4 & 1.6 & Inconclusive \\ 
+31 (Ba) & 2.5 & 8.4 & -7.5 & Inconsistent \\
+81 & 1.1 & 1.6 & -2.6 & Inconclusive \\
+356 & 1.2 & 0.80 & 1.6 & Inconclusive \\
+511 & 0.58 & 0.68 & -3.4 & Inconsistent \\
+662 & 2.1 & 0.61 & -0.69 & Consistent \\
+1270 & 1.65 & 0.44 & 2.2 & Inconclusive 
+\end{tabular}
+\caption{Uncertainties in empirical and reference attenuation coefficients. Notice that uncertainties are reported here in \unit{\per\m}, not \unit{\per\mm}. Values of $t$ are also shown, as well as the interpretation of the meaning of the $t$ value.}
+\label{tab:tValues}
+\end{table}
 
+Our data appear from this metric very inconsistent with the reference values. However, we note that the difference between the minimum and maximum of our values of $t$ is 9.7, which suggests that there is not a simple systemic disagreement between our data and the reference data.
+
+We also note that the largest value of $|t|$, 7.5, comes from the lowest-energy emission from Ba-133, which did not achieve a very good fit. This sample does not appear to be representative of the group, and if we omit that datum, our $t$ values appear thoroughly inconclusive.
+
+In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}. We can see that our data are close to those reported by NIST over the full range, but that our data are much more inconsistent than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment.
 
 \begin{figure}[h] \centering
     \includegraphics[scale=.5]{AttenuationComparison.png}
@@ -242,7 +261,6 @@ t
     \label{fig:AttenComp}
 \end{figure}
 
-In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}. We can see that our data are close to those reported by NIST over the full range, but that our data are much more inconsistent than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment.
 
 
 
