@@ -92,3 +92,30 @@ def calcT(energy, emp, dEmp):
     out = (float(emp) - ref) / np.sqrt( dEmp**2 + dRef **2 )
     print(out)
     return out
+
+
+lambdaE = np.asarray([365, 213, 48.8, 29.0, 19.6, 18.7, 18.5])
+dLambdaE = np.asarray([55, 2.5, 1.1, 1.2, .58, 2.1, 1.65])
+
+
+lambdaR = np.asarray([279, 279, 54.1, 26.6, 22.6, 20.2, 14.7])
+dLambdaR = np.asarray([8.4, 8.4, 1.6, .8, .68, .61, .44])
+
+scaleFactor = 1.2792579465941572 * .01 #unit conversion m^{-1} -> cm^{-1}
+
+sigma = [0,0,0,0,0,0,0]
+dSigma = [0,0,0,0,0,0,0]
+
+for i in range(len(lambdaE)):
+    print('line')
+    print(lambdaE[i] * scaleFactor, dLambdaE[i] * scaleFactor)
+    sigma[i] = lambdaE[i] * scaleFactor
+    dSigma[i] = dLambdaE[i] * scaleFactor
+    print(lambdaR[i] * scaleFactor, dLambdaR[i] * scaleFactor)
+    print('')
+
+thomsonX = .6652
+
+for i in range(len(lambdaE)):
+    print('line %d'%i)
+    print('t = %f'%((sigma[i] - thomsonX) / dSigma[i]) )

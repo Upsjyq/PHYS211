@@ -13,12 +13,13 @@
 \usepackage{graphicx}
 	% package that allows you to include graphics
 	
+\usepackage{float}
 \usepackage{pgfplots}
 \usepackage{subfig}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,
+    linkcolor=black,
     urlcolor=blue,
 }
 
@@ -89,14 +90,14 @@
 
 \subsection{Full Spectrum and Visible Features}
 
-%\begin{figure}[h] \centering
-%    \includegraphics[scale=.5]{Na-Spectrum.png}
-%    \caption{A full decay spectrum of Na-22 up to approximately \qty{1350}{\kilo\electronvolt}, taken over \qty{178}{\second}. Each detector channel corresponds to an energy of approximately 1.3keV. Visible are three main regions of activity: channels 10 to 250, comprising the Compton shelf of the \qty{511}{\kilo\electronvolt} full-energy peak and the backscatter peaks of both full-energy peaks; channels 350 to 415, comprising the full-energy peak at \qty{511}{\kilo\electronvolt}; and channels 880 to 970, comprising the full-energy peak at \qty{1270}{\kilo\electronvolt}.}
-%    \label{fig:NaFullSpec}
-%\end{figure}
-
 
 Figure (\ref{fig:NaFullSpec}) shows a full decay spectrum of sodium-22. The relationship between detector channel and photon energy is arbitrary, though, so some determination of energy scale was necessary. For the two visible Gaussian peaks, the peak energies agreed with the expected 1270:511 ratio of energies, which led us to conclude that the two clear peaks in the spectrum were the emission peaks we expected.
+
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{Na-Spectrum.png}
+    \caption{A full decay spectrum of Na-22 up to approximately \qty{1350}{\kilo\electronvolt}, taken over \qty{178}{\second}. Each detector channel corresponds to an energy of approximately 1.3keV. Visible are three main regions of activity: channels 10 to 250, comprising the Compton shelf of the \qty{511}{\kilo\electronvolt} full-energy peak and the backscatter peaks of both full-energy peaks; channels 350 to 415, comprising the full-energy peak at \qty{511}{\kilo\electronvolt}; and channels 880 to 970, comprising the full-energy peak at \qty{1270}{\kilo\electronvolt}.}
+    \label{fig:NaFullSpec}
+\end{figure}
 
 We then chose our regions of interest for each full-energy peak to include the entire bell curve and approximately 10 channels of both tails of the peak. The software reported both net and gross counts for each region of interest, with the net count having automatically filtered out the background noise in the counts. However, for this filtering to work properly, the regions of interest needed to have some channels of background noise on each end. We limited our padding to roughly 10 channels on each side in order to limit the amount of spurious noise introduced to each region of interest. This choice will be explained somewhat more fully in the discussion of our uncertainties.
 
@@ -106,11 +107,11 @@ We then chose our regions of interest for each full-energy peak to include the e
 
 To examine more closely the shape of the \qty{511}{\kilo\electronvolt} full-energy peak, we used a least-squares regression to fit a Gaussian distribution with linear background to the full-energy peak, as shown in figure (\ref{fig:NaSpecRestr}). We expect the count rates over a given time to obey Poissonian statistics, so for a channel with $k$ counts we find the error to be $\sqrt{k}$, as shown in the figure.
 
-%\begin{figure}[h] \centering
-%    \includegraphics[scale=.5]{Na-Spectrum Restricted.png}
-%    \caption{The same spectrum of Na-22, shown from channels 350 to 425. Each point is plotted with Poissonian error $\Delta k = \sqrt{k}$. Also shown are a Gaussian function fit to the full-energy peak, the fit parameters, and the linear background term as determined by the least-squares regression.}
-%    \label{fig:NaSpecRestr}
-%\end{figure}
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{Na-Spectrum Restricted.png}
+    \caption{The same spectrum of Na-22, shown from channels 350 to 425. Each point is plotted with Poissonian error $\Delta k = \sqrt{k}$. Also shown are a Gaussian function fit to the full-energy peak, the fit parameters, and the linear background term as determined by the least-squares regression.}
+    \label{fig:NaSpecRestr}
+\end{figure}
 
 The function used for the regression is given by equation (\ref{eqn:GaussianBG}). In this case $x$ represents the channel number, and $N(x)$ the expected number of counts on that channel. The determined parameters for the centroid, standard deviation, total counts, and linear background, as well as the uncertainties therein, may be found in figure (\ref{fig:NaSpecRestr}). We find the reduced chi-squared value on this fit to be 1.25, which suggests that the Gaussian function with linear background does model the data well.
 \begin{align}
@@ -185,52 +186,54 @@ R = \frac{N}{t}
 
 For each radioactive sample, we took data at several shielding thicknesses for each major energy peak. From these, we fit an exponential decay function with constant background. We then extract the attenuation coefficient and its error from the fit parameters. Below are presented the fit function for each peak as well as the attenuation coefficients.
 
-%\begin{figure}[h] \centering
-%    \includegraphics[scale=.5]{Na-Attenuation.png}
-%    \caption{The measured transmission rate for each peak of the Na-22 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data.}
-%    \label{fig:NaAtten}
-%\end{figure}
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{Na-Attenuation.png}
+    \caption{The measured transmission rate for each peak of the Na-22 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data.}
+    \label{fig:NaAtten}
+\end{figure}
 
 In figure \ref{fig:NaAtten} we observe relatively large reduced chi-squared values. There is no obvious pattern in the residuals to suggest that the exponential with constant background is a poor fit function. The high reduced chi-squared then suggests that there was significant noise in the measurements. This may be because we tested the sodium sample first, when the lab was relatively busy --- other lab groups were moving samples around more at the beginning of the lab section than later on.
 
-%\begin{figure}[h] \centering
-%    \includegraphics[scale=.5]{Cs-Attenuation.png}
-%    \caption{The measured transmission rate for each peak of the Cs-137 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data.}
-%    \label{fig:CsAtten}
-%\end{figure}
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{Cs-Attenuation.png}
+    \caption{The measured transmission rate for each peak of the Cs-137 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data.}
+    \label{fig:CsAtten}
+\end{figure}
 
 Figure \ref{fig:CsAtten} shows the data taken for the cesium samples. We found in taking data that for the \qty{31}{\kilo\electronvolt} process, the spectrum was too noisy to determine a peak beyond \qty{7}{\mm} of shielding.
 
-%\begin{figure}[h] \centering
-%    \includegraphics[scale=.5]{Ba-Attenuation.png}
-%    \caption{The measured transmission rate for each peak of the Ba-133 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data. Note that the long tail of small values results in a very high chi-squared value at low energies.}
-%    \label{fig:BaAtten}
-%\end{figure}
 
 Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that the data for the \qty{31}{\kilo\electronvolt} process becomes completely attenuated at high shielding thickness. In this case, the spectrum was somewhat less noisy, so we still included those points in the data fitting. However, the very small values at the tail of the exponential function still result in a very high reduced chi-squared value for that sample.
 
+\begin{figure}[H] \centering
+    \includegraphics[scale=.5]{Ba-Attenuation.png}
+    \caption{The measured transmission rate for each peak of the Ba-133 sample at various thicknesses of aluminum shielding, as well as an exponential decay with constant background fitted to the data. Note that the long tail of small values results in a very high chi-squared value at low energies.}
+    \label{fig:BaAtten}
+\end{figure}
 
+
+\newpage
 \subsection{Comparison with NIST Values}
 
 One of the goals of this experiment was to compare our empirical findings with the literature values for linear attenuation published by the National Institute of Standards and Technology (NIST). We used the provided files of linear attenuation coefficients for aluminum at various energy levels. In cases in which the provided energy values did not match the energies used in our experiment, we found a `literature' value by simple linear interpolation between two adjacent data points.
 
 We present our values of linear attenuation coefficients against the NIST values in table \ref{tab:NISTComp}.
 
-%\begin{table}[h] 
-%\centering  \begin{tabular}{ c  c  c  c  c  }
-%Energy (\unit{\kilo\electronvolt}) & $\lambda_E$ (\unit{\per\mm}) & $\lambda_N$ (\unit{\per\mm}) \\ [.25em]
-%\hline 
-%31 (Cs) & 0.365 & 0.279 \\
-%31 (Ba) & 0.213 & 0.279 \\
-%81 & 0.0488 & 0.0541 \\
-%356 & 0.0290 & 0.0266 \\
-%511 & 0.0196 & 0.0226 \\
-%662 & 0.0187 & 0.0202 \\
-%1270 & 0.0185 & 0.0147
-%\end{tabular}
-%\caption{Empirical attenuation coefficients ($\lambda_E$) against NIST values ($\lambda_N$) at various energies. The two samples taken at \qty{31}{\kilo\electronvolt} are marked with the element used for that sample.}
-%\label{tab:NISTComp}
-%\end{table}
+\begin{table}[h] 
+\centering  \begin{tabular}{ c  c  c  }
+Energy (\unit{\kilo\electronvolt}) & $\lambda_E$ (\unit{\per\m}) & $\lambda_N$ (\unit{\per\m}) \\ [.25em]
+\hline 
+31 (Cs) & $365 \pm 55$ & $279 \pm 8.4$ \\
+31 (Ba) & $213 \pm 2.5$ & $279 \pm 8.4$ \\
+81 & $48.8 \pm 1.1$ & $54.1 \pm 1.6$ \\
+356 & $29.0 \pm 1.2$ & $26.6 \pm 0.80$ \\
+511 & $19.6 \pm 0.58$ & $22.6 \pm 0.68$ \\
+662 & $18.7 \pm 2.1$ & $20.2 \pm 0.61$ \\
+1270 & $18.5 \pm 1.65$ & $14.7 \pm 0.44$
+\end{tabular}
+\caption{Empirical attenuation coefficients ($\lambda_E$) against NIST values ($\lambda_N$) at various energies. The two samples taken at \qty{31}{\kilo\electronvolt} are marked with the element used for that sample.}
+\label{tab:NISTComp}
+\end{table}
 
 To determine the consistency of our results with the literature values, we calculate for each energy a value of $t$, which we define as
 \begin{align}
@@ -240,20 +243,20 @@ t
 \end{align}
 We will consider each empirical attenuation coefficient consistent with the literature for $|t| \leq 1$, inconsistent with the literature for $|t| \geq 3$, and inconclusive otherwise. The values are presented in table \ref{tab:tValues}.
 
-%\begin{table}[h] 
-%\centering  \begin{tabular}{ c  c  c  c  c  } 
-%Energy (\unit{\kilo\electronvolt}) & $\Delta \lambda_E$ (\unit{\per\m}) & $\Delta \lambda_N$ (\unit{\per\m}) & $t$ & Interpretation  \\ \hline
-%31 (Cs) & 55 & 8.4 & 1.6 & Inconclusive \\ 
-%31 (Ba) & 2.5 & 8.4 & -7.5 & Inconsistent \\
-%81 & 1.1 & 1.6 & -2.6 & Inconclusive \\
-%356 & 1.2 & 0.80 & 1.6 & Inconclusive \\
-%511 & 0.58 & 0.68 & -3.4 & Inconsistent \\
-%662 & 2.1 & 0.61 & -0.69 & Consistent \\
-%1270 & 1.65 & 0.44 & 2.2 & Inconclusive 
-%\end{tabular}
-%\caption{Uncertainties in empirical and reference attenuation coefficients. Notice that uncertainties are reported here in \unit{\per\m}, not \unit{\per\mm}. Values of $t$ are also shown, as well as the interpretation of the meaning of the $t$ value.}
-%\label{tab:tValues}
-%\end{table}
+\begin{table}[h] 
+\centering  \begin{tabular}{ c  c   c  } 
+Energy (\unit{\kilo\electronvolt}) & $t$ & Interpretation  \\ \hline
+31 (Cs) & 1.6 & Inconclusive \\ 
+31 (Ba) &  -7.5 & Inconsistent \\
+81 &  -2.6 & Inconclusive \\
+356 &  1.6 & Inconclusive \\
+511 &  -3.4 & Inconsistent \\
+662 &  -0.69 & Consistent \\
+1270 &  2.2 & Inconclusive 
+\end{tabular}
+\caption{Values of $t$ for the empirical linear attenuation coefficient and the NIST-reported attenuation coefficient for aluminum, as well as the interpretation of the value. The results are considered consistent with each other for $|t| \leq 1$, inconsistent for $|t|\geq3$, and inconclusive otherwise.}
+\label{tab:tValues}
+\end{table}
 
 Our data appear from this metric very inconsistent with the reference values. However, we note that the difference between the minimum and maximum of our values of $t$ is 9.7, which suggests that there is not a simple systemic disagreement between our data and the reference data.
 
@@ -263,11 +266,11 @@ In order to visualize how our data compare to the values reported by NIST, we al
 
 Another possible issue with our method is that we measure a relatively wide band of photon energies. Our data agree with the NIST data insofar as they suggest that photon energy affects the attenuation coefficient, so we might get more consistent results from using narrower photon energy distributions.
 
-%\begin{figure}[h] \centering
-%    \includegraphics[scale=.5]{AttenuationComparison.png}
-%    \caption{Our measured attenuation coefficients plotted against the NIST reported values. Per the wiki instructions, we have simply used a 3\% error on the NIST data.}
-%    \label{fig:AttenComp}
-%\end{figure}
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{AttenuationComparison.png}
+    \caption{Our measured attenuation coefficients plotted against the NIST reported values. Per the wiki instructions, we have simply used a 3\% error on the NIST data. Also visible, around \qty{60}{\kilo\electronvolt}, is the sharply convex region, corresponding to the boundary between a photoelectric-effect-dominated attenuation regime at lower energy and a Compton-scattering-dominated regime at higher energies.}
+    \label{fig:AttenComp}
+\end{figure}
 
 
 \section{Cross-Sections and Comparisons with the Thompson Model}
@@ -280,9 +283,61 @@ As is explained in the lab manual, the interaction cross-section $\sigma$ of the
 \end{align}
 where $\rho, Z$, and $A$ are the mass density, electron number, and average atomic mass, respectively, of the shielding material (in our case, aluminum), and $N_A$ is Avogadro's constant. From the \href{https://physics.nist.gov/cgi-bin/ffast/ffast.pl?Formula=Al&gtype=0&lower=&upper=&density=}{NIST Website} we find $\rho = \qty{2.694}{\g\per\cm\cubed}$ and ${A = \qty{26.98}{\g\per\mol}}$ to enough precision for us to consider as exact. We then find the cross section directly as
 \begin{align}
-\sigma &= \left( \qty{1.279e-24}{\per\cm\cubed} \right) \lambda  \label{eqn:xSecFormula}
+\sigma &= \left( \qty{1.279}{\barn\cm} \right)  \lambda  \label{eqn:xSecFormula}
 \end{align} 
-Note that the equation (\ref{eqn:xSecFormula}) is for $\lambda$ in \unit{\per\cm\squared}, while we have been reporting values in terms of \unit{\per\mm\squared}.
+Note that equation (\ref{eqn:xSecFormula}) holds for $\lambda$ in \unit{\per\cm}, while we have previously reported values in \unit{\per\m}. From this relationship, the calculated values of the interaction cross-section may be found in table \ref{tab:XSections}.
+
+\begin{table}[h] 
+\centering  \begin{tabular}{ c  c   c  } 
+Energy (\unit{\kilo\electronvolt}) & $\sigma_E$ (\unit{\barn}) & $\sigma_N$ (\unit{\barn}) \\ \hline
+31 (Cs) & $\num{4.67} \pm \num{0.70}$ & $\num{3.57} \pm \num{0.11}$ \\ 
+31 (Ba) &$ \num{2.72}\pm\num{0.03} $&$ \num{3.57}\pm\num{0.11}$ \\
+81 &  $\num{0.624}\pm\num{0.014}$ & $\num{0.692}\pm\num{0.020}$ \\
+356 & $\num{.371}\pm\num{0.015}$ & $\num{0.340}\pm\num{0.010}$ \\
+511 & $\num{0.251}\pm 0.007$ & $0.289 \pm 0.009 $\\
+662 &  $0.239 \pm 0.027$ & $0.258 \pm 0.008 $\\
+1270 &  $0.237 \pm 0.021$ &$ 0.188 \pm 0.006$
+\end{tabular}
+\caption{Values of the empirically determined interaction cross-section $\sigma_E$ and the interaction cross-section calculated from the NIST data $\sigma_N$.}
+\label{tab:XSections}
+\end{table}
+
+\subsection{Thompson Cross-Section}
+
+From another \href{https://physics.nist.gov/cgi-bin/cuu/Value?sigmae}{NIST page} we find that the Thomson cross-section of the electron is 
+\begin{align}
+\sigma_T &= \qty{0.6652}{\barn}
+\end{align}
+with negligible error. Based on this, we may again calculate values of $t$ for our measured values of the interaction cross-section to determine whether the scattering we observe is consistent with Thomson scattering. These values are presented in table \ref{tab:tSigma}.
+
+\begin{table}[h] 
+\centering  \begin{tabular}{ c  c   c } 
+Energy (\unit{\kilo\electronvolt}) & $t$ & Interpretation \\ \hline
+31 (Cs) & 5.7 & Inconsistent \\ 
+31 (Ba) & 64.4 & Inconsistent \\
+81 &  -2.9 & Borderline inconsistent\\
+356 & -19.2 & Inconsistent\\
+511 &  -55.9 & Inconsistent\\
+662 & -15.9 & Inconsistent \\
+1270 &  -20.3 & Inconsistent
+\end{tabular}
+\caption{Values of $t$ for the NIST-reported Thomson cross-section of the electron and the empirically determined interaction cross-section, as well as the interpretation of the value. The results are considered consistent with each other for $|t| \leq 1$, inconsistent for $|t|\geq3$, and inconclusive otherwise. }
+\label{tab:tSigma}
+\end{table}
+
+
+\section{Dominant Absorption Mechanisms}
+
+For reference, we have included a table (figure \ref{fig:AlAbsorption}) taken from the lab manual that shows the prevalence of theoretical absorption processes for aluminum. According to the plot, Compton scattering dominates the attenuation process within \qtyrange{100}{5000}{\kilo\electronvolt}. We can thus conclude that for our measurements at \qtylist{356;511;662;1270}{\kilo\electronvolt}, the Compton scattering process dominated. For the low-energy peaks at \qty{31}{\kilo\electronvolt}, we see that the photoelectric effect is expected to dominate the process. For the \qty{81}{\kilo\electronvolt} peak, though, we can expect that both the photoelectric effect and Compton scattering will significantly contribute to the attenuation. 
+
+These conclusions are reinforced by comparing the theoretical table for aluminum with the NIST values, shown in figure \ref{fig:AttenComp}. The profile of the NIST data matches the theoretical predictions, and we can clearly see the two regimes in figure \ref{fig:AttenComp}. As predicted, our two low-energy data are in one regime, our \qty{81}{\kilo\electronvolt} peak is in neither region, and our higher-energy samples are all in the shallower Compton-dominated regime.
+
+
+\begin{figure}[p] \centering
+    \includegraphics[scale=1.2]{al-absorptionMechanisms.pdf}
+    \caption{Plot showing the theoretical effects of Compton scattering, the photoelectric effect, and pair production.}
+    \label{fig:AttenComp}
+\end{figure}
 
 
 \end{document}
