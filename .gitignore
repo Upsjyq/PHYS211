@@ -3,5 +3,6 @@
 *.log
 *.aux
 *.synctex.gz
+*.out
 /Lab Notebook
 /Jupyter Notebooks/.ipynb_checkpoints
