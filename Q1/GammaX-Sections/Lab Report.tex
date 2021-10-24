@@ -15,6 +15,12 @@
 	
 \usepackage{pgfplots}
 \usepackage{subfig}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+}
 
 
 \usepackage{siunitx}
@@ -98,7 +104,7 @@ We then chose our regions of interest for each full-energy peak to include the e
 
 \subsection{Modeling the 511 keV Full-Energy Peak}
 
-To examine more closely the shape of the \qty{511}{\kilo\electronvolt} full-energy peak, we used a least-squares regression to fit a Gaussian distribution with linear background to the full-energy peak, as shown in figure (\ref{fig:NaSpecRestr}).
+To examine more closely the shape of the \qty{511}{\kilo\electronvolt} full-energy peak, we used a least-squares regression to fit a Gaussian distribution with linear background to the full-energy peak, as shown in figure (\ref{fig:NaSpecRestr}). We expect the count rates over a given time to obey Poissonian statistics, so for a channel with $k$ counts we find the error to be $\sqrt{k}$, as shown in the figure.
 
 %\begin{figure}[h] \centering
 %    \includegraphics[scale=.5]{Na-Spectrum Restricted.png}
@@ -106,14 +112,12 @@ To examine more closely the shape of the \qty{511}{\kilo\electronvolt} full-ener
 %    \label{fig:NaSpecRestr}
 %\end{figure}
 
-We expect the count rates over a given time to obey Poissonian statistics, so for a channel with $k$ counts we find the error to be $\sqrt{k}$. The function used for the regression was given by
+The function used for the regression is given by equation (\ref{eqn:GaussianBG}). In this case $x$ represents the channel number, and $N(x)$ the expected number of counts on that channel. The determined parameters for the centroid, standard deviation, total counts, and linear background, as well as the uncertainties therein, may be found in figure (\ref{fig:NaSpecRestr}). We find the reduced chi-squared value on this fit to be 1.25, which suggests that the Gaussian function with linear background does model the data well.
 \begin{align}
 N(x)
 &=
 \frac{A}{\sigma \sqrt{2 \pi}} \exp \left( \frac{- (x-\mu)^2}{2 \sigma^2} \right) + bx + c
 \end{align}
-
-where in this case $x$ represents the channel number, and $N(x)$ the expected number of counts on that channel. The determined parameters for the centroid, standard deviation, total counts, and linear background, as well as the uncertainties therein, may be found in figure (\ref{fig:NaSpecRestr}). We find the reduced chi-squared value on this fit to be 1.25, which suggests that the Gaussian function with linear background does model the data well.
 
 Also plotted in figure (\ref{fig:NaSpecRestr}) is the linear background as determined by the fitting function. This background term would be expected to come from two main sources: the Compton shelf of the \qty{1270}{\kilo\electronvolt} emission process; and laboratory noise, particularly other gamma ray sources such as samples from other groups in the same room. In principle, there is no reason for this background to be linear, but based on a spectrum taken with no sample, we concluded that above approximately \qty{300}{\kilo\electronvolt} the laboratory background could be reasonable modeled as linear. However, we could not measure only the portion of the background radiation due to scattering of the \qty{1270}{\kilo\electronvolt} photons, so the background is likely not entirely linear. This non-linearity has particular ramifications for the uncertainties in our measured photon counts, which will be discussed in more detail in section \ref{sss:SysError}.
 
@@ -255,7 +259,9 @@ Our data appear from this metric very inconsistent with the reference values. Ho
 
 We also note that the largest value of $|t|$, 7.5, comes from the lowest-energy emission from Ba-133, which did not achieve a very good fit. This sample does not appear to be representative of the group, and if we omit that datum, our $t$ values appear thoroughly inconclusive.
 
-In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}. We can see that our data are close to those reported by NIST over the full range, but that our data are much more inconsistent than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment.
+In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}, which plots our attenuation coefficients along with those reported by NIST. We can see that our data are close to those reported by NIST over the full range, but that our data are much more inconsistent than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment. The most likely issue to introduce such an underestimate is in the system for discriminating between real and background photons. The nature of linear interpolation between the endpoints of the region of interest makes the system likely to include spurious photons or exclude real counts, especially in low signal-to-noise regions like the \qty{31}{\kilo\electronvolt} peaks.
+
+Another possible issue with our method is that we measure a relatively wide band of photon energies. Our data agree with the NIST data insofar as they suggest that photon energy affects the attenuation coefficient, so we might get more consistent results from using narrower photon energy distributions.
 
 %\begin{figure}[h] \centering
 %    \includegraphics[scale=.5]{AttenuationComparison.png}
@@ -264,6 +270,19 @@ In order to visualize how our data compare to the values reported by NIST, we al
 %\end{figure}
 
 
+\section{Cross-Sections and Comparisons with the Thompson Model}
+
+\subsection{Values of the Interaction Cross-Section}
+
+As is explained in the lab manual, the interaction cross-section $\sigma$ of the electron is related to the linear attenuation coefficient by the equation
+\begin{align}
+\lambda = \frac{\rho Z N_A}{A_r} \sigma
+\end{align}
+where $\rho, Z$, and $A$ are the mass density, electron number, and average atomic mass, respectively, of the shielding material (in our case, aluminum), and $N_A$ is Avogadro's constant. From the \href{https://physics.nist.gov/cgi-bin/ffast/ffast.pl?Formula=Al&gtype=0&lower=&upper=&density=}{NIST Website} we find $\rho = \qty{2.694}{\g\per\cm\cubed}$ and ${A = \qty{26.98}{\g\per\mol}}$ to enough precision for us to consider as exact. We then find the cross section directly as
+\begin{align}
+\sigma &= \left( \qty{1.279e-24}{\per\cm\cubed} \right) \lambda  \label{eqn:xSecFormula}
+\end{align} 
+Note that the equation (\ref{eqn:xSecFormula}) is for $\lambda$ in \unit{\per\cm\squared}, while we have been reporting values in terms of \unit{\per\mm\squared}.
 
 
 \end{document}
