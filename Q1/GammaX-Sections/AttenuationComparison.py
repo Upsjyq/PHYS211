@@ -55,13 +55,19 @@ plt.xscale('log')
 plt.ylabel('Attenuation Coefficient (mm$^{-1}$)')
 plt.yscale('log')
 
+ThomsonY = []
+for i in range(len(NistVals[0][eminIndex:emaxIndex])):
+    ThomsonY.append(0.052)
+
+
 pCent, = plt.plot(NistVals[0][eminIndex:emaxIndex], NistVals[1][eminIndex:emaxIndex], 'k-', lw='.5', markersize=1)
 pUB, = plt.plot(NistVals[0][eminIndex:emaxIndex], NISTUB[eminIndex:emaxIndex], ls='--', color='gray', lw='.5', markersize=1)
 pLB, = plt.plot(NistVals[0][eminIndex:emaxIndex], NISTLB[eminIndex:emaxIndex], ls='--', color='gray', lw='.5', markersize=1)
 vals = plt.errorbar(energies, coeffs, dcoeffs, fmt='r.', lw=1, markersize=2, capsize=3)
+Thomson, = plt.plot(NistVals[0][eminIndex:emaxIndex], ThomsonY, 'b--', lw=.5)
 
-plt.legend( [pCent, (pUB, pLB), vals], ['NIST Reported Values', 'NIST Values Error bounds', 'Measured Values'], handler_map={tuple: HandlerTuple(ndivide=None)}, loc='upper right')
-#plt.savefig(savePath)
+plt.legend( [pCent, (pUB, pLB), vals, Thomson], ['NIST Reported Values', 'NIST Values Error bounds', 'Measured Values', 'Thomson Scattering'], handler_map={tuple: HandlerTuple(ndivide=None)}, loc='upper right')
+plt.savefig(savePath)
 plt.show()
 
 

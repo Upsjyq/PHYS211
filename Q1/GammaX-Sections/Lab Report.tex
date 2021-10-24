@@ -77,10 +77,14 @@
 \begin{center}
 	{\large PHYS 211 Gamma Cross-Sections Lab Report}
 	
-	Jack Dewhurst \hspace{1cm}
+	John Dewhurst \hspace{1cm}
 	25 October 2021
 	
 	\vspace{5mm}
+	
+	The data files, python code, and the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github}.
+	
+	\vspace{1em}
 \end{center}
 	
 %end title section
@@ -101,7 +105,7 @@ Figure (\ref{fig:NaFullSpec}) shows a full decay spectrum of sodium-22. The rela
 
 We then chose our regions of interest for each full-energy peak to include the entire bell curve and approximately 10 channels of both tails of the peak. The software reported both net and gross counts for each region of interest, with the net count having automatically filtered out the background noise in the counts. However, for this filtering to work properly, the regions of interest needed to have some channels of background noise on each end. We limited our padding to roughly 10 channels on each side in order to limit the amount of spurious noise introduced to each region of interest. This choice will be explained somewhat more fully in the discussion of our uncertainties.
 
- Visible in particular are full-energy peaks at \qty{511}{\kilo\electronvolt} and \qty{1270}{\kilo\electronvolt}, as well as Compton edges for each peak. The Compton shelf for the higher-energy peak is notably less visible, due both to the fact that the higher-energy emission occurs less frequently than the \qty{511}{\kilo\electronvolt} emission and to the fact that higher-energy gamma rays tend to be scattered less than low-energy rays. The second backscatter peak is not visually distinguishable from scattering noise, but its position can be predicted from the relationship $E_\gamma = E_{CE} + E_{BS}$, where $E_\gamma$ is the energy of the photon, $R_{CE}$ is the energy at the Compton edge, and $E_{BS}$ is the energy of the backscatter peak. This relationship is a result of the geometry of the setup, as the backscatter peak is from photons that scatter once (presumably off of the lab bench) and then enter the detector and deposit the energy that remains after a 180 degree deflection, whereas photons in the Compton shelf deposit only the energy \textit{lost} in a deflection, with the maximal deflection of 180 degrees appearing as the Compton edge. Since the full-energy peak and the Compton edge are fully visible for the \qty{1270}{\kilo\electronvolt} mode, we can examine the predicted location of a backscatter peak and we find what appears to be a small peak, but could simply be noise. 
+ Visible in particular are full-energy peaks at \qty{511}{\kilo\electronvolt} and \qty{1270}{\kilo\electronvolt}, as well as Compton edges for each peak. The Compton shelf for the higher-energy peak is notably less visible, due both to the fact that the higher-energy emission occurs less frequently than the \qty{511}{\kilo\electronvolt} emission and to the fact that higher-energy gamma rays tend to be scattered less than low-energy rays. The second backscatter peak is not visually distinguishable from scattering noise, but its position can be predicted from the relationship ${E_\gamma = E_{CE} + E_{BS}}$, where $E_\gamma$ is the energy of the photon, $R_{CE}$ is the energy at the Compton edge, and $E_{BS}$ is the energy of the backscatter peak. This relationship is a result of the geometry of the setup, as the backscatter peak is from photons that scatter once (presumably off of the lab bench) and then enter the detector and deposit the energy that remains after a 180 degree deflection, whereas photons in the Compton shelf deposit only the energy \textit{lost} in a deflection, with the maximal deflection of 180 degrees appearing as the Compton edge. Since the full-energy peak and the Compton edge are fully visible for the \qty{1270}{\kilo\electronvolt} mode, we can examine the predicted location of a backscatter peak and we find what appears to be a small peak, but could simply be noise. 
 
 \subsection{Modeling the 511 keV Full-Energy Peak}
 
@@ -114,7 +118,7 @@ To examine more closely the shape of the \qty{511}{\kilo\electronvolt} full-ener
 \end{figure}
 
 The function used for the regression is given by equation (\ref{eqn:GaussianBG}). In this case $x$ represents the channel number, and $N(x)$ the expected number of counts on that channel. The determined parameters for the centroid, standard deviation, total counts, and linear background, as well as the uncertainties therein, may be found in figure (\ref{fig:NaSpecRestr}). We find the reduced chi-squared value on this fit to be 1.25, which suggests that the Gaussian function with linear background does model the data well.
-\begin{align}
+\begin{align} \label{eqn:GaussianBG}
 N(x)
 &=
 \frac{A}{\sigma \sqrt{2 \pi}} \exp \left( \frac{- (x-\mu)^2}{2 \sigma^2} \right) + bx + c
@@ -158,7 +162,7 @@ R = \frac{N}{t}
 \end{equation}
 The software calculates the net count as $N = G - B$ where $G$ is the gross count and $B$ is the background count, which it determines by the method described in section \ref{sss:SysError}. However, both the net and background terms are Poissonian, so they have errors given by
 \begin{align}
-\Delta G &= \sqrt{G} \\
+\Delta G &= \sqrt{G} &
 \Delta B &= \sqrt{B} = \sqrt{G - N}
 \end{align}
 The error in the net count can then be found by
@@ -174,12 +178,11 @@ where $\sigma_{GB}$ is the covariance of the gross and background counts. The co
 \Delta N &\approx \sqrt{2G - N}
 \end{align} 
 The count rate and its uncertainty are then found by
-\begin{equation}
+\begin{align}
 R = \frac{N}{t}
-\end{equation}
-\begin{equation}
+&
 \Delta R = R \sqrt{ \left( \frac{\Delta N}{N} \right)^2 + \left( \frac{\Delta t}{t} \right)^2}
-\end{equation}
+\end{align}
 
 
 \subsection{Empirically Determined Attenuation Coefficients}
@@ -192,7 +195,7 @@ For each radioactive sample, we took data at several shielding thicknesses for e
     \label{fig:NaAtten}
 \end{figure}
 
-In figure \ref{fig:NaAtten} we observe relatively large reduced chi-squared values. There is no obvious pattern in the residuals to suggest that the exponential with constant background is a poor fit function. The high reduced chi-squared then suggests that there was significant noise in the measurements. This may be because we tested the sodium sample first, when the lab was relatively busy --- other lab groups were moving samples around more at the beginning of the lab section than later on.
+In figure \ref{fig:NaAtten} we observe relatively large reduced chi-squared values. However, there is no obvious pattern in the residuals to suggest that the exponential with constant background is a poor fit function. The high reduced chi-squared then suggests that there was significant noise in the measurements. This may be because we tested the sodium sample first, when the lab was relatively busy --- other lab groups were moving samples around more at the beginning of the lab section than later on.
 
 \begin{figure}[h] \centering
     \includegraphics[scale=.5]{Cs-Attenuation.png}
@@ -200,10 +203,12 @@ In figure \ref{fig:NaAtten} we observe relatively large reduced chi-squared valu
     \label{fig:CsAtten}
 \end{figure}
 
-Figure \ref{fig:CsAtten} shows the data taken for the cesium samples. We found in taking data that for the \qty{31}{\kilo\electronvolt} process, the spectrum was too noisy to determine a peak beyond \qty{7}{\mm} of shielding.
+Figure \ref{fig:CsAtten} shows the data taken for the cesium samples. We found in taking data that for the \qty{31}{\kilo\electronvolt} process, the spectrum was too noisy to determine a peak beyond \qty{7}{\mm} of shielding. Since there are only four discernible points of data and we've fit a function with three parameters, the resultant regression looks like a very good fit to the data (low chi-squared), when in reality this datum should be regarded with some skepticism.
 
 
-Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that the data for the \qty{31}{\kilo\electronvolt} process becomes completely attenuated at high shielding thickness. In this case, the spectrum was somewhat less noisy, so we still included those points in the data fitting. However, the very small values at the tail of the exponential function still result in a very high reduced chi-squared value for that sample.
+Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that the data for the \qty{31}{\kilo\electronvolt} process becomes completely attenuated at high shielding thickness. In this case, the spectrum was somewhat less noisy, so we still included those points in the data fitting. However, the very small values at the tail of the exponential function still result in a very high reduced chi-squared value for that sample.\footnote{
+    We took two samples at \qty{31}{\kilo\electronvolt} and used a different analysis technique for each. For the cesium peak, we simply excluded the data where no peak was discernible, whereas for the barium peak we included those values in the fit, which resulted in a regression with very poor fit parameters. The result of these methods can be seen clearly in figure \ref{fig:AttenComp}, where the two samples disagree with each other \textit{and} with the reference value. It seems that to take clear data in this region where the photoelectric effect creates a high attenuation, a different experimental technique is called for to take clear data. Perhaps by layering aluminum foil, we could achieve lower absolute attenuation rates, allowing us to measure the coefficient with less distortion.
+}
 
 \begin{figure}[H] \centering
     \includegraphics[scale=.5]{Ba-Attenuation.png}
@@ -215,9 +220,7 @@ Figure \ref{fig:BaAtten} shows a similar effect as we found for cesium, in that 
 \newpage
 \subsection{Comparison with NIST Values}
 
-One of the goals of this experiment was to compare our empirical findings with the literature values for linear attenuation published by the National Institute of Standards and Technology (NIST). We used the provided files of linear attenuation coefficients for aluminum at various energy levels. In cases in which the provided energy values did not match the energies used in our experiment, we found a `literature' value by simple linear interpolation between two adjacent data points.
-
-We present our values of linear attenuation coefficients against the NIST values in table \ref{tab:NISTComp}.
+One of the goals of this experiment was to compare our empirical findings with the literature values for linear attenuation published by the National Institute of Standards and Technology (NIST). We used the provided files of linear attenuation coefficients for aluminum at various energy levels. In cases in which the provided energy values did not match the energies used in our experiment, we found a `literature' value by simple linear interpolation between two adjacent data points. We present our values of linear attenuation coefficients against the NIST values in table \ref{tab:NISTComp}.
 
 \begin{table}[h] 
 \centering  \begin{tabular}{ c  c  c  }
@@ -268,7 +271,7 @@ Another possible issue with our method is that we measure a relatively wide band
 
 \begin{figure}[h] \centering
     \includegraphics[scale=.5]{AttenuationComparison.png}
-    \caption{Our measured attenuation coefficients plotted against the NIST reported values. Per the wiki instructions, we have simply used a 3\% error on the NIST data. Also visible, around \qty{60}{\kilo\electronvolt}, is the sharply convex region, corresponding to the boundary between a photoelectric-effect-dominated attenuation regime at lower energy and a Compton-scattering-dominated regime at higher energies.}
+    \caption{Our measured attenuation coefficients plotted against the NIST reported values. Per the wiki instructions, we have simply used a 3\% error on the NIST data. Also visible, around \qty{60}{\kilo\electronvolt}, is the sharply convex region, corresponding to the boundary between a photoelectric-effect-dominated attenuation regime at lower energy and a Compton-scattering-dominated regime at higher energies. Plotted in blue is the attenuation coefficient we would expect based on Thomson scattering, as calculated from equations (\ref{eqn:xSecFormula}, \ref{eqn:ThomsonXSec}).}
     \label{fig:AttenComp}
 \end{figure}
 
@@ -281,7 +284,7 @@ As is explained in the lab manual, the interaction cross-section $\sigma$ of the
 \begin{align}
 \lambda = \frac{\rho Z N_A}{A_r} \sigma
 \end{align}
-where $\rho, Z$, and $A$ are the mass density, electron number, and average atomic mass, respectively, of the shielding material (in our case, aluminum), and $N_A$ is Avogadro's constant. From the \href{https://physics.nist.gov/cgi-bin/ffast/ffast.pl?Formula=Al&gtype=0&lower=&upper=&density=}{NIST Website} we find $\rho = \qty{2.694}{\g\per\cm\cubed}$ and ${A = \qty{26.98}{\g\per\mol}}$ to enough precision for us to consider as exact. We then find the cross section directly as
+where $\rho, Z$, and $A$ are the mass density, electron number, and molar mass, respectively, of the shielding material (in our case, aluminum), and $N_A$ is Avogadro's constant. From the \href{https://physics.nist.gov/cgi-bin/ffast/ffast.pl?Formula=Al&gtype=0&lower=&upper=&density=}{NIST Website} we find $\rho = \qty{2.694}{\g\per\cm\cubed}$ and ${A = \qty{26.98}{\g\per\mol}}$ to enough precision for us to consider as exact. We then find the cross section directly as
 \begin{align}
 \sigma &= \left( \qty{1.279}{\barn\cm} \right)  \lambda  \label{eqn:xSecFormula}
 \end{align} 
@@ -305,10 +308,10 @@ Energy (\unit{\kilo\electronvolt}) & $\sigma_E$ (\unit{\barn}) & $\sigma_N$ (\un
 \subsection{Thompson Cross-Section}
 
 From another \href{https://physics.nist.gov/cgi-bin/cuu/Value?sigmae}{NIST page} we find that the Thomson cross-section of the electron is 
-\begin{align}
+\begin{align} \label{eqn:ThomsonXSec}
 \sigma_T &= \qty{0.6652}{\barn}
 \end{align}
-with negligible error. Based on this, we may again calculate values of $t$ for our measured values of the interaction cross-section to determine whether the scattering we observe is consistent with Thomson scattering. These values are presented in table \ref{tab:tSigma}.
+with negligible error. Based on this, we may again calculate values of $t$ for our measured values of the interaction cross-section to determine whether the scattering we observe is consistent with Thomson scattering. These values are presented in table \ref{tab:tSigma}. It is clear that our data are inconsistent with Thomson scattering. Although the consistency of our data with the NIST attenuation coefficients was questionable, we note that our data were significantly below the Thomson cross-section over a wide range of energies.
 
 \begin{table}[h] 
 \centering  \begin{tabular}{ c  c   c } 
@@ -331,6 +334,8 @@ Energy (\unit{\kilo\electronvolt}) & $t$ & Interpretation \\ \hline
 For reference, we have included a table (figure \ref{fig:AlAbsorption}) taken from the lab manual that shows the prevalence of theoretical absorption processes for aluminum. According to the plot, Compton scattering dominates the attenuation process within \qtyrange{100}{5000}{\kilo\electronvolt}. We can thus conclude that for our measurements at \qtylist{356;511;662;1270}{\kilo\electronvolt}, the Compton scattering process dominated. For the low-energy peaks at \qty{31}{\kilo\electronvolt}, we see that the photoelectric effect is expected to dominate the process. For the \qty{81}{\kilo\electronvolt} peak, though, we can expect that both the photoelectric effect and Compton scattering will significantly contribute to the attenuation. 
 
 These conclusions are reinforced by comparing the theoretical table for aluminum with the NIST values, shown in figure \ref{fig:AttenComp}. The profile of the NIST data matches the theoretical predictions, and we can clearly see the two regimes in figure \ref{fig:AttenComp}. As predicted, our two low-energy data are in one regime, our \qty{81}{\kilo\electronvolt} peak is in neither region, and our higher-energy samples are all in the shallower Compton-dominated regime.
+
+We also observe that our data are most inconsistent with the Thomson scattering model in the Compton-dominated regime, as one would expect by comparing the NIST attenuation coefficients with those we would expect if we calculated (by equation (\ref{eqn:xSecFormula})) the expected attenuation coefficient from Thomson scattering, plotted in figure \ref{fig:AttenComp}.
 
 
 \begin{figure}[p] \centering
