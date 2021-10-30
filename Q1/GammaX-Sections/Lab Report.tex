@@ -36,6 +36,8 @@
 \usepackage{fullpage}
 	% package that specifies normal margins
 	
+%\usepackage{showframe}
+	
 %\makeatletter
 %\newcommand{\xRightarrow}[2][]{\ext@arrow 0359\Rightarrowfill@{#1}{#2}}
 %\makeatother
@@ -80,9 +82,9 @@
 	John Dewhurst \hspace{1cm}
 	25 October 2021
 	
-	\vspace{5mm}
+	\vspace{1em}
 	
-	The data files, python code, and the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github}.
+	The data files, python code used for in-lab visualization, and the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github} at /jmdewhurst/PHYS211/Q1/GammaX-Sections.
 	
 	\vspace{1em}
 \end{center}
@@ -170,7 +172,7 @@ The error in the net count can then be found by
 \Delta N 
 &= 
 \sqrt{ (\Delta G)^2 + (\Delta B)^2 - 2 \sigma_{GB}}
-=
+\\&=
 \sqrt{ G + G - N - 2 \sigma_{GB}}
 \end{align}
 where $\sigma_{GB}$ is the covariance of the gross and background counts. The covariance will be positive (increasing the background counts causes to the gross count to increase), but we have no way to estimate it numerically, leaving us to overestimate the error:
@@ -179,9 +181,9 @@ where $\sigma_{GB}$ is the covariance of the gross and background counts. The co
 \end{align} 
 The count rate and its uncertainty are then found by
 \begin{align}
-R = \frac{N}{t}
+R &= \frac{N}{t}
 &
-\Delta R = R \sqrt{ \left( \frac{\Delta N}{N} \right)^2 + \left( \frac{\Delta t}{t} \right)^2}
+\Delta R &= R \sqrt{ \left( \frac{\Delta N}{N} \right)^2 + \left( \frac{\Delta t}{t} \right)^2}
 \end{align}
 
 
@@ -238,13 +240,13 @@ Energy (\unit{\kilo\electronvolt}) & $\lambda_E$ (\unit{\per\m}) & $\lambda_N$ (
 \label{tab:NISTComp}
 \end{table}
 
-To determine the consistency of our results with the literature values, we calculate for each energy a value of $t$, which we define as
-\begin{align}
+To determine the consistency of our results with the literature values, we use Welch's $t$-test, as defined for our case in equation (\ref{eqn:TDef}). We will consider each empirical attenuation coefficient consistent with the literature for $|t| \leq 1$, inconsistent with the literature for $|t| \geq 3$, and inconclusive otherwise. The values are presented in table \ref{tab:tValues}.\footnote{NB: We do assume Gaussian error in both $\lambda_E$ and $\lambda_N$.}
+\begin{align} 
 t
 &=
-\frac{\lambda_E - \lambda_N}{\sqrt{ (\Delta \lambda_E)^2 + (\Delta \lambda_N)^2 }}
+\frac{\lambda_E - \lambda_N}{\sqrt{ (\Delta \lambda_E)^2 + (\Delta \lambda_N)^2 }} \label{eqn:TDef}
 \end{align}
-We will consider each empirical attenuation coefficient consistent with the literature for $|t| \leq 1$, inconsistent with the literature for $|t| \geq 3$, and inconclusive otherwise. The values are presented in table \ref{tab:tValues}.
+
 
 \begin{table}[h] 
 \centering  \begin{tabular}{ c  c   c  } 
@@ -257,20 +259,21 @@ Energy (\unit{\kilo\electronvolt}) & $t$ & Interpretation  \\ \hline
 662 &  -0.69 & Consistent \\
 1270 &  2.2 & Inconclusive 
 \end{tabular}
-\caption{Values of $t$ for the empirical linear attenuation coefficient and the NIST-reported attenuation coefficient for aluminum, as well as the interpretation of the value. The results are considered consistent with each other for $|t| \leq 1$, inconsistent for $|t|\geq3$, and inconclusive otherwise.}
+\caption{Values of the statistical $t$-test for the empirical linear attenuation coefficient and the NIST-reported attenuation coefficient for aluminum, as well as the interpretation of the value. The results are considered consistent with each other for $|t| \leq 1$, inconsistent for $|t|\geq3$, and inconclusive otherwise.}
 \label{tab:tValues}
 \end{table}
 
 Our data appear from this metric very inconsistent with the reference values. However, we note that the difference between the minimum and maximum of our values of $t$ is 9.7, which suggests that there is not a simple systemic disagreement between our data and the reference data.
 
+\newpage
 We also note that the largest value of $|t|$, 7.5, comes from the lowest-energy emission from Ba-133, which did not achieve a very good fit. This sample does not appear to be representative of the group, and if we omit that datum, our $t$ values appear thoroughly inconclusive.
 
-In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}, which plots our attenuation coefficients along with those reported by NIST. We can see that our data are close to those reported by NIST over the full range, but that our data are much more inconsistent than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment. The most likely issue to introduce such an underestimate is in the system for discriminating between real and background photons. The nature of linear interpolation between the endpoints of the region of interest makes the system likely to include spurious photons or exclude real counts, especially in low signal-to-noise regions like the \qty{31}{\kilo\electronvolt} peaks.
+In order to visualize how our data compare to the values reported by NIST, we also include figure \ref{fig:AttenComp}, which plots our attenuation coefficients along with those reported by NIST. We can see that our data are close to those reported by NIST over the full range, but that our data are much less smooth than one might conclude from their errors alone. This suggests that we have systemically underestimated the errors in our experiment. The most likely issue to introduce such an underestimate is in the system for discriminating between real and background photons. The nature of linear interpolation between the endpoints of the region of interest makes the system likely to include spurious photons or exclude real counts, especially in low signal-to-noise regions like the \qty{31}{\kilo\electronvolt} peaks.
 
 Another possible issue with our method is that we measure a relatively wide band of photon energies. Our data agree with the NIST data insofar as they suggest that photon energy affects the attenuation coefficient, so we might get more consistent results from using narrower photon energy distributions.
 
 \begin{figure}[h] \centering
-    \includegraphics[scale=.5]{AttenuationComparison.png}
+    \includegraphics[scale=.4]{AttenuationComparison.png}
     \caption{Our measured attenuation coefficients plotted against the NIST reported values. Per the wiki instructions, we have simply used a 3\% error on the NIST data. Also visible, around \qty{60}{\kilo\electronvolt}, is the sharply convex region, corresponding to the boundary between a photoelectric-effect-dominated attenuation regime at lower energy and a Compton-scattering-dominated regime at higher energies. Plotted in blue is the attenuation coefficient we would expect based on Thomson scattering, as calculated from equations (\ref{eqn:xSecFormula}, \ref{eqn:ThomsonXSec}).}
     \label{fig:AttenComp}
 \end{figure}
@@ -324,7 +327,7 @@ Energy (\unit{\kilo\electronvolt}) & $t$ & Interpretation \\ \hline
 662 & -15.9 & Inconsistent \\
 1270 &  -20.3 & Inconsistent
 \end{tabular}
-\caption{Values of $t$ for the NIST-reported Thomson cross-section of the electron and the empirically determined interaction cross-section, as well as the interpretation of the value. The results are considered consistent with each other for $|t| \leq 1$, inconsistent for $|t|\geq3$, and inconclusive otherwise. }
+\caption{Values of the statistical $t$-test for the NIST-reported Thomson cross-section of the electron and the empirically determined interaction cross-section, as well as the interpretation of the value. The results are considered consistent with each other for $|t| \leq 1$, inconsistent for $|t|\geq3$, and inconclusive otherwise. }
 \label{tab:tSigma}
 \end{table}
 
