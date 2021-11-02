@@ -306,10 +306,12 @@ plt.close()
 plt.plot(xvals, yvals)
 plt.show()
 ##
-def sinusoid(p, x):
-    return p[0] * np.cos(  p[1] * x + p[2]  ) + p[3]
 
-guess = [100, .1, 0, 100]
+
+def sinusoid(p, x):
+    return p[0] * np.cos(  (np.pi/45) * x + p[1]  ) + p[2]
+
+guess = [100,  0, 100]
 
 pf1, pferr1, chisq, dof = data_fit(guess, sinusoid, angleRel, fitUse[:,0], fitErrUse[:,0])
 
@@ -328,5 +330,7 @@ plt.plot(xSmooth, sinusoid(pf1, xSmooth))
 plt.show()
 
 
+## Preliminary scan
 
+waveforms = np.loadtxt('C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/0-0-none-test1.npy')
 

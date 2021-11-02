@@ -1,0 +1,104 @@
+\documentclass[letter]{article}
+	% basic article document class
+	% use percent signs to make comments to yourself -- they will not show up.
+
+\usepackage{changepage}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+	% packages that allow mathematical formatting
+
+\usepackage{graphicx}
+	% package that allows you to include graphics
+	
+\usepackage{float}
+\usepackage{pgfplots}
+\usepackage{subfig}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+}
+
+
+\usepackage{siunitx}
+
+
+\usepackage{setspace}
+	% package that allows you to change spacing
+
+\onehalfspacing
+	% text become 1.5 spaced
+
+\usepackage{fullpage}
+	% package that specifies normal margins
+	
+%\usepackage{showframe}
+	
+%\makeatletter
+%\newcommand{\xRightarrow}[2][]{\ext@arrow 0359\Rightarrowfill@{#1}{#2}}
+%\makeatother
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\DeclareMathOperator{\SPAN}{span}
+\DeclareMathOperator{\HESS}{Hess}
+\DeclareMathOperator{\DIAM}{diam}
+\newcommand{\PD}[2][]{\frac{ \partial {#1} }{ \partial {#2} } }
+\newcommand{\BVEC}[1]{\boldsymbol{#1}}
+\newcommand{\CONTRA}{\Rightarrow\!\Leftarrow}
+
+
+%hyperref-compatible custom float tagging. Place command before caption
+\makeatletter \newcommand{\floattag}[1]{
+   \@namedef{the\@captype}{#1}%
+   \@namedef{theH\@captype}{#1}%
+   \addtocounter{\@captype}{-1}} 
+\makeatother
+
+
+\usepackage{graphicx}
+\graphicspath{ {C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/GammaX-Sections/} }
+\usepackage{lipsum}
+
+\newcommand{\X}{\mathbf{x}}
+\newcommand{\Y}{\mathbf{y}}
+\newcommand{\BV}[1]{\hat{\mathbf{#1}}}
+\newcommand{\IP}[1]{\langle #1 \rangle}
+
+%a ~ can replace a space in text mode to prevent a line break at that space.
+
+\begin{document}
+	% line of code telling latex that your document is beginning
+
+%Title section
+\begin{center}
+	{\large PHYS 211 Gamma Cross-Sections Lab Report}
+	
+	John Dewhurst \hspace{1cm}
+	25 October 2021
+	
+	\vspace{1em}
+	
+	The data files, python code used for in-lab visualization and data analysis, and the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github} at /jmdewhurst/PHYS211/Q1/Wave-ParticleDuality.
+	
+	\vspace{1em}
+\end{center}
+	
+%end title section
+
+
+\section{Preliminary Dependence of Interference on Polarization}
+
+We began by setting out to verify under what polarization conditions interference takes place. We would expect, classically, that only beams sharing linear polarization would interfere. To verify this behavior, we took several trials with polarizing filter (C) removed altogether. For the first trial, half-wave plates (A) and (B) were both set to \qty{0}{\deg}, so that neither beam path would have any change to its polarization (neglecting any uneven polarization picked up from the beam splitters or mirrors). We scanned the Piezo voltage from \qty{35}{\volt} to \qty{60}{\volt}, and found that the scan was approximately two interference fringe wavelengths, as can be seen in figure \ref{fig:initScan}. This sweep length, corresponding to a length sweep of approximately \qty{1.6}{\um}, was maintained for all subsequent trials. For this preliminary scan, we used a voltage step of \qty{0.1}{\volt} and a per-step duration of \qty{1}{\sec}. In the interest of time, for all subsequent trials we used a voltage step of \qty{1}{\volt} and a per-step duration of \qty{1}{\sec}.
+
+Having found an initial interference fringe, we took samples with half-wave plates (A) and (B) at 0 and 0 \unit{\deg}, respectively, and at 0 and 45 \unit{\deg}, respectively. Note that a half-wave plate is expected to change the polarization of the beam by \textit{twice} the angle between the polarization and the half-wave plate, so a difference of \qty{45}{\deg} between half-wave plates corresponds to a \qty{90}{\deg} difference in output polarization. As expected from theory, we found that a sinusoidal interference fringe was visible when the beams' polarizations were aligned, and was not visible when the beams' polarizations were perpendicular.
+
+To verify that this result was not related to the horizontal axis being a preferred axis of our experiment, we repeated the same test with half-wave plate (A) [(B)] at 20 [20] \unit{\deg}, and again at 20 [65] \unit{\deg}. We found the same results as before. This pair of tests, as well as the preceding pair, are shown in figure \ref{fig:scanImages}.
+
+\end{document}
+	% line of code telling latex that your document is ending. If you leave this out, you'll get an error
