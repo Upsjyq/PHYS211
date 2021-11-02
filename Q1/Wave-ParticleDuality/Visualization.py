@@ -56,10 +56,10 @@ def data_fit(p0,func,xvar, yvar, err,tmi=0):
         print('{:<11}'.format(num),'|','{:<24.3e}'.format(p0[num]),'|','{:<24.3e}'.format(pf[num]),'|','{:<24.3e}'.format(pferr[num]))
     return pf, pferr, chisq, dof
 
-# ## Declare/Empty Relevant Variables
-# data = []
-# dErr = []
-# angles = [] #manual axis, motorized axis, external axis
+## Declare/Empty Relevant Variables
+data = []
+dErr = []
+angles = [] #manual axis, motorized axis, external axis
 
 
 ##
@@ -71,31 +71,32 @@ errSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 2
 angleSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/anglesCompiled.npy'
 
 
-# ## Data Induction
-#
-# trialNum = 0
-#
-# fileName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/20-65-none-test1.txt'
-#
-# dataRaw = np.loadtxt(fileName, unpack = True, skiprows=1)
-#
-# dErrRaw = [np.zeros(len(dataRaw[0]))]
-# for i in range(2, 4):
-#     errors = [np.sqrt(dataRaw[i][j]) for j in range(len(dataRaw[i]))]
-#     dErrRaw.append(np.asarray(errors))
-#
-# data.append(dataRaw)
-# dErr.append(dErrRaw)
-# angles.append([20, 65, 'NONE'])
+## Data Induction
 
-# ## Saving compiled data for re-induction
-#
-#
-# np.save(dataSave, data)
-#
-# np.save(errSave, dErr)
-#
-# np.save(angleSave, angles)
+trialNum = 0
+
+for dataNum in range(1,19):
+    fileName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/Day2-test2/0-45-%d0.txt'%dataNum
+
+    dataRaw = np.loadtxt(fileName, unpack = True, skiprows=1)
+
+    dErrRaw = [np.zeros(len(dataRaw[0]))]
+    for i in range(2, 4):
+        errors = [np.sqrt(dataRaw[i][j]) for j in range(len(dataRaw[i]))]
+        dErrRaw.append(np.asarray(errors))
+
+    data.append(dataRaw)
+    dErr.append(dErrRaw)
+    angles.append([0,45,10 * dataNum])
+
+## Saving compiled data for re-induction
+
+
+np.save(dataSave, data)
+
+np.save(errSave, dErr)
+
+np.save(angleSave, angles)
 
 ## Data re-induction
 
@@ -107,20 +108,6 @@ angles = np.load(angleSave)
 
 guess = [[500, 0, 1500] for i in range(len(data))] #amp, phase, offset
 
-
-
-## DFT
-
-
-yf = fft.rfft(data[2])
-xf = fft.rfftfreq( len(data[0]), .1)
-
-
-plt.clf()
-
-plt.plot(xf[:50], np.abs(yf[:50]))
-
-plt.show()
 
 ## Fitting sinusoids to fringes
 
@@ -196,6 +183,16 @@ for i, e in enumerate(data):
     dof[1].append(dof0)
 
 
+##
+
+for i in range(len(pf[0])):
+    print(len(pf[0][i]))
+pf = np.asarray(pf)
+pferr = np.asarray(pferr)
+chisq = np.asarray(chisq)
+dof = np.asarray(dof)
+
+
 ## save fit data
 
 fitParamsSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/fitParams.npy'
@@ -217,9 +214,119 @@ pferr = np.load(fitErrSave)
 chisq = np.load(fitChisqSave)
 dof = np.load(fitDOFSave)
 
+'''
+pf[0][3][2] is the 3rd fit parameter (offset) of the 4th trial (0-45-55-test1), to the zero-th data channel (coincidence rate 1&2).
 
-## Plotting, experimental
+similar for the others.
+'''
+
+
+## process/ plot no-external-filter runs
+'''
+Splitting data into two categories: the runs without external polarizing filter, and the runs with external polarizing filter
+'''
+externBool = []
+for i, e in enumerate(angles):
+    if e[2] == 'NONE':
+        externBool.append(i)
+
+xSmooth = np.linspace(data[0][0][0], data[0][0][-1], num=100)
+
+'''
+data[i][j] is the waveform of the (i+1)th trial, (j+1)th channel
+'''
+
+dataUse, errUse, fitUse, fitErrUse, chisqUse, dofUse = [], [], [], [], [], []
+for i, e in enumerate(data):
+    if i in externBool:
+        dataUse.append(data[i])
+        errUse.append(err[i])
+        fitUse.append([pf[0][i], pf[1][i]])
+        fitErrUse.append([pferr[0][i], pf[1][i]])
+        chisqUse.append([chisq[0][i], chisq[1][i]] )
+        dofUse.append([dof[0][i], dof[1][i]])
+
+
+plt.close()
+fig, ax = plt.subplots( figsize = (12, 12), nrows = 2, ncols = 2)
+
+fig.suptitle('Interference fringes with no external polarizing filter')
+
+for i, axis in enumerate(fig.axes):
+    axis.errorbar(dataUse[i][0], dataUse[i][2], errUse[i][1], label='ch1&2')
+    axis.errorbar(dataUse[i][0], dataUse[i][3], errUse[i][2], label='ch1&3')
+    axis.plot(xSmooth, sinusoid(fitUse[i][0], xSmooth), label = 'ch1&2 fit')
+    axis.plot(xSmooth, sinusoid(fitUse[i][1], xSmooth), label = 'ch1&3 fit')
+
+plt.show()
+
+
+## process/plot filtered runs
+
+externBool = []
+for i, e in enumerate(angles):
+    if e[2] != 'NONE':
+        externBool.append(i)
+
+xSmooth = np.linspace(data[0][0][0], data[0][0][-1], num=100)
+
+dataUse, errUse, fitUse, fitErrUse, chisqUse, dofUse, angleUse = [], [], [], [], [], [], []
+for i, e in enumerate(data):
+    if i in externBool:
+        dataUse.append(data[i])
+        errUse.append(err[i])
+        fitUse.append([pf[0][i][0], pf[1][i][0]])
+        fitErrUse.append([pferr[0][i][0], pf[1][i][0]])
+        chisqUse.append([chisq[0][i], chisq[1][i]] )
+        dofUse.append([dof[0][i], dof[1][i]])
+        angleUse.append(angles[i])
+
+fitUse = np.asarray(fitUse)
+fitErrUse = np.asarray(fitErrUse)
+chisqUse = np.asarray(chisqUse)
+dofUse = np.asarray(dofUse)
+
+angleRel = [float(angleUse[i][2]) for i in range(len(angleUse))]
+
+
+## cut data
+#only use last 19 data, because we were more consistent when taking thise ones
+angleRel = np.asarray(angleRel[-19:])
+fitUse = np.abs(np.asarray(fitUse[-19:]))
+fitErrUse = np.asarray(fitErrUse[-19:])
+chisqUse = np.asarray(chisqUse[-19:])
+dofUse = np.asarray(dofUse[-19:])
+
+## Fit sine to fringe amplitude
+
+yvals = fft.rfft(np.abs(fitUse[:, 0]))
+xvals = fft.rfftfreq(19, 10)
+
+plt.close()
+plt.plot(xvals, yvals)
+plt.show()
+##
+def sinusoid(p, x):
+    return p[0] * np.cos(  p[1] * x + p[2]  ) + p[3]
+
+guess = [100, .1, 0, 100]
+
+pf1, pferr1, chisq, dof = data_fit(guess, sinusoid, angleRel, fitUse[:,0], fitErrUse[:,0])
+
+xSmooth = np.linspace(0, 180, num=100)
+
+
+##
+plt.close()
+plt.title('Interference fringe amplitude with external polarizing filter')
+plt.xlabel('Relative angle between external filter and manual half-wave plate')
+
+plt.errorbar(angleRel, np.abs(fitUse[:,0]), fitErrUse[:,0], ls='none', capsize = 3, marker = '.')
+
+plt.plot(xSmooth, sinusoid(pf1, xSmooth))
+
+plt.show()
 
 
 
-## Plotting (Output)
+
