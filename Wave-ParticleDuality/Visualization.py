@@ -290,15 +290,19 @@ angleRel = [float(angleUse[i][2]) for i in range(len(angleUse))]
 
 
 ## cut data
-#only use last 19 data, because we were more consistent when taking thise ones
+#only use last 19 data, because we were more consistent when taking these ones
 angleRel = np.asarray(angleRel[-19:])
 fitUse = np.abs(np.asarray(fitUse[-19:]))
 fitErrUse = np.asarray(fitErrUse[-19:])
 chisqUse = np.asarray(chisqUse[-19:])
 dofUse = np.asarray(dofUse[-19:])
 
-## Fit sine to fringe amplitude
+## Fit sine wave to fringe amplitude
 
+
+'''
+dft for finding approximate wavelength, but also not necessary becaues we know that the period should be \pi / 2
+'''
 yvals = fft.rfft(np.abs(fitUse[:, 0]))
 xvals = fft.rfftfreq(19, 10)
 

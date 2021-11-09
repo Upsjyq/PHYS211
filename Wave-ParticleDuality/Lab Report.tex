@@ -49,7 +49,7 @@
 \DeclareMathOperator{\HESS}{Hess}
 \DeclareMathOperator{\DIAM}{diam}
 \newcommand{\PD}[2][]{\frac{ \partial {#1} }{ \partial {#2} } }
-\newcommand{\BVEC}[1]{\boldsymbol{#1}}
+\newcommand{\BVEC}[1]{\hat{\boldsymbol{#1}}}
 \newcommand{\CONTRA}{\Rightarrow\!\Leftarrow}
 
 
@@ -91,6 +91,9 @@
 	
 %end title section
 
+\setcounter{section}{-1}
+\section{A Note on Labeling}
+In this experiment, we varied three pieces of experimental apparatus: two half-wave plates and a linear polarizing filter. This report refers to the half-wave plate in the same arm as the Piezo-sweeping mirror as half-wave plate (A), and we refer to the half-wave plate in the arm \textit{without} the Piezo stack as half-wave plate (B). The linear polarizer is referred to as filter (C).
 
 \section{Preliminary Dependence of Interference on Polarization}
 
@@ -99,6 +102,39 @@ We began by setting out to verify under what polarization conditions interferenc
 Having found an initial interference fringe, we took samples with half-wave plates (A) and (B) at 0 and 0 \unit{\deg}, respectively, and at 0 and 45 \unit{\deg}, respectively. Note that a half-wave plate is expected to change the polarization of the beam by \textit{twice} the angle between the polarization and the half-wave plate, so a difference of \qty{45}{\deg} between half-wave plates corresponds to a \qty{90}{\deg} difference in output polarization. As expected from theory, we found that a sinusoidal interference fringe was visible when the beams' polarizations were aligned, and was not visible when the beams' polarizations were perpendicular.
 
 To verify that this result was not related to the horizontal axis being a preferred axis of our experiment, we repeated the same test with half-wave plate (A) [(B)] at 20 [20] \unit{\deg}, and again at 20 [65] \unit{\deg}. We found the same results as before. This pair of tests, as well as the preceding pair, are shown in figure \ref{fig:scanImages}.
+
+As expected, we find that parallel-polarized beams exhibit interference, whereas perpendicular-polarized beam do not.
+
+\section{Restoring Interference with a Linear Polarizer}
+
+To test the hypothesis that a linear polarizer placed \textit{outside} the interferometer can restore interference to perpendicular-polarized light, we added a linear polarizer to filter (C). We set half-wave plates (A) [(B)] to 0 [45] \unit{\deg}, so that no interference appeared on photodiode 3.
+
+To determine what effect we would classically expect the polarizing filter to have on the interference, we consider the fields coming out of the second beam splitter (after passing through the interferometer) into APD 3 as
+\begin{align}
+E_1 &= E_0 \exp \big[ i (\omega t - kz) \big] \,\, \BVEC{x} \\
+E_2 &= E_0 \exp \big[ i (\omega t - kz) \big] \exp[i\varphi] \,\, \BVEC{y}
+\end{align}
+Note that we have assumed each output beam has the same intensity, and that $E_2$ has picked up a relative phase of $\varphi$ over the interferometer. Also, let $\BVEC{y}$ be the vertical unit vector, and $\BVEC{x}$ be the horizontal unit vector perpendicular to the beam path. We know, assuming the Piezo's response is linear, that $\varphi$ will be directly proportional to the voltage applied to the Piezo.
+
+Then, when adding a linear polarizer at filter (C), set at an angle $\theta$ relative to the $\BVEC{x}$ axis, we would expect to transform the fields as
+\begin{align}
+E_1 &\to E_0 \exp \big[ i (\omega t - kz) \big] \cos\theta \,\, \BVEC{n} \\
+E_2 &\to E_0 \exp \big[ i (\omega t - kz) \big] \exp[i\varphi] \sin\theta \,\, \BVEC{n}
+\end{align}
+where $\BVEC{n}$ is the unit vector in the direction of polarization of filter (C). The photodiode would then measure the intensity of the overall field:
+\begin{align}
+I \propto |E|^2 
+&=
+(E_1 + E_2) (E_1^\ast E_2^\ast)
+\\&=
+|E_0 \cos\theta|^2 + |E_0 \sin\theta|^2 + (E_0 \cos\theta)(E_0 \sin\theta) \big[ \exp(-i\varphi) + \exp(i \varphi) \big]
+\\&=
+E_0^2 + E_0^2 \sin(2\theta) \cos(\varphi)
+\end{align}
+In particular, we expect the \textit{amplitude} of the measured interference fringe to have a $\sin(2\theta)$ dependency on the angle $\theta$ of the polarizer added outside the interferometer.
+
+To verify this relationship, added filter (C) and took a sample with filter rotated at \qty{10}{\deg} increments.
+
 
 \end{document}
 	% line of code telling latex that your document is ending. If you leave this out, you'll get an error
