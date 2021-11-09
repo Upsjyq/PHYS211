@@ -64,11 +64,11 @@ angles = [] #manual axis, motorized axis, external axis
 
 ##
 
-dataSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/dataCompiled.npy'
+dataSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/dataCompiled.npy'
 
-errSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/errCompiled.npy'
+errSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/errCompiled.npy'
 
-angleSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/anglesCompiled.npy'
+angleSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/anglesCompiled.npy'
 
 
 ## Data Induction
@@ -76,7 +76,7 @@ angleSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS
 trialNum = 0
 
 for dataNum in range(1,19):
-    fileName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/Day2-test2/0-45-%d0.txt'%dataNum
+    fileName = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/Day2-test2/0-45-%d0.txt'%dataNum
 
     dataRaw = np.loadtxt(fileName, unpack = True, skiprows=1)
 
@@ -92,11 +92,11 @@ for dataNum in range(1,19):
 ## Saving compiled data for re-induction
 
 
-np.save(dataSave, data)
-
-np.save(errSave, dErr)
-
-np.save(angleSave, angles)
+# np.save(dataSave, data)
+#
+# np.save(errSave, dErr)
+#
+# np.save(angleSave, angles)
 
 ## Data re-induction
 
@@ -195,17 +195,17 @@ dof = np.asarray(dof)
 
 ## save fit data
 
-fitParamsSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/fitParams.npy'
-fitErrSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/fitErr.npy'
-fitChisqSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/fitChisq.npy'
-fitDOFSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/fitDOF.npy'
+fitParamsSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/fitParams.npy'
+fitErrSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/fitErr.npy'
+fitChisqSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/fitChisq.npy'
+fitDOFSave = 'C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/fitDOF.npy'
 
 
 ##
-np.save(fitParamsSave, pf)
-np.save(fitErrSave, pferr)
-np.save(fitChisqSave, chisq)
-np.save(fitDOFSave, dof)
+# np.save(fitParamsSave, pf)
+# np.save(fitErrSave, pferr)
+# np.save(fitChisqSave, chisq)
+# np.save(fitDOFSave, dof)
 
 ## re-induct fit data
 
@@ -236,6 +236,10 @@ xSmooth = np.linspace(data[0][0][0], data[0][0][-1], num=100)
 data[i][j] is the waveform of the (i+1)th trial, (j+1)th channel
 '''
 
+freqFit = .5163 #determined by just fitting sinusoids
+def sinusoid(p, x):
+    return p[0] * np.cos( freqFit * x + p[1] ) + p[2]
+
 dataUse, errUse, fitUse, fitErrUse, chisqUse, dofUse = [], [], [], [], [], []
 for i, e in enumerate(data):
     if i in externBool:
@@ -248,18 +252,44 @@ for i, e in enumerate(data):
 
 
 plt.close()
-fig, ax = plt.subplots( figsize = (12, 12), nrows = 2, ncols = 2)
+fig, ax = plt.subplots( figsize = (12, 8), nrows = 2, ncols = 2)
 
-fig.suptitle('Interference fringes with no external polarizing filter')
+fig.suptitle('Interference Fringes: No External Polarizing Filter')
+
+plt.setp(ax[-1, :], xlabel = 'Piezo Voltage (V)')
+plt.setp(ax[:, 0], ylabel = 'Photon counts')
+
+ax[0,0].set_title('Plate (A) at 0 deg, Plate (B) at 0 deg')
+ax[0,1].set_title('Plate (A) at 0 deg, Plate (B) at 45 deg')
+ax[1,0].set_title('Plate (A) at 20 deg, Plate (B) at 20 deg')
+ax[1,1].set_title('Plate (A) at 20 deg, Plate (B) at 65 deg')
+
 
 for i, axis in enumerate(fig.axes):
-    axis.errorbar(dataUse[i][0], dataUse[i][2], errUse[i][1], label='ch1&2')
-    axis.errorbar(dataUse[i][0], dataUse[i][3], errUse[i][2], label='ch1&3')
-    axis.plot(xSmooth, sinusoid(fitUse[i][0], xSmooth), label = 'ch1&2 fit')
-    axis.plot(xSmooth, sinusoid(fitUse[i][1], xSmooth), label = 'ch1&3 fit')
+    if(i %2 == 0):
+        axis.plot(xSmooth, sinusoid(fitUse[i][0], xSmooth), 'b--', linewidth=1, label = 'Ch1&2 Coincidences, sinusoidal fit')
+        axis.plot(xSmooth, sinusoid(fitUse[i][1], xSmooth), 'r--', linewidth=1, label = 'Ch1&3 Coincidences, sinusoidal fit')
 
+    axis.errorbar(dataUse[i][0], dataUse[i][2], errUse[i][1], ls='none', marker='.', markersize=2, capsize=3, linewidth=1, label='Ch1&2 Coincidences', color='b')
+    axis.errorbar(dataUse[i][0], dataUse[i][3], errUse[i][2], ls='none', marker='.', markersize=2, capsize=3, linewidth=1, label='Ch1&3 Coincidences', color='r')
+
+
+ax[0][0].text(.03,.92, '(a)', transform=ax[0][0].transAxes)
+ax[0][1].text(.03,.92, '(b)', transform=ax[0][1].transAxes)
+ax[1][0].text(.03,.92, '(c)', transform=ax[1][0].transAxes)
+ax[1][1].text(.03,.92, '(d)', transform=ax[1][1].transAxes)
+
+
+handles, labels = ax[0,0].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=4, borderaxespad=0 )
+
+fig.savefig('C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/Plot outputs/NoFilterFringes')
 plt.show()
 
+print('reduced chi-squared values, ch1&2 (blue):')
+print( (np.asarray(chisqUse)/np.asarray(dofUse))[:,0])
+print('reduced chi-squared values, ch1&3 (red):')
+print( (np.asarray(chisqUse)/np.asarray(dofUse))[:,1])
 
 ## process/plot filtered runs
 
@@ -297,6 +327,15 @@ fitErrUse = np.asarray(fitErrUse[-19:])
 chisqUse = np.asarray(chisqUse[-19:])
 dofUse = np.asarray(dofUse[-19:])
 
+
+redChisq = np.asarray(chisqUse)/np.asarray(dofUse)
+print('maximum reduced-chi-squared value:')
+print(np.max(redChisq))
+print('mean reduced-chi-squared value:')
+print(np.average(redChisq))
+print('standard deviation of reduced-chi-squared values:')
+print(np.std(redChisq))
+
 ## Fit sine wave to fringe amplitude
 
 
@@ -325,16 +364,23 @@ xSmooth = np.linspace(0, 180, num=100)
 ##
 plt.close()
 plt.title('Interference fringe amplitude with external polarizing filter')
-plt.xlabel('Relative angle between external filter and manual half-wave plate')
+plt.ylabel('Fringe Amplitude (counts)')
+plt.xlabel('Relative angle between external filter and manual half-wave plate (deg)')
 
-plt.errorbar(angleRel, np.abs(fitUse[:,0]), fitErrUse[:,0], ls='none', capsize = 3, marker = '.')
+plt.errorbar(angleRel, np.abs(fitUse[:,0]), fitErrUse[:,0], ls='none', color='k', capsize = 3, marker = '.', markersize=2, label='Interference Fringe Amplitude')
 
-plt.plot(xSmooth, sinusoid(pf1, xSmooth))
+plt.plot(xSmooth, sinusoid(pf1, xSmooth), ls='--', color='gray', linewidth=1, label = 'Fit Sinusoid')
+
+plt.ylim((-10,200))
+
+plt.legend(loc='lower right')
+
+# plt.savefig('C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/Plot outputs/FilterFringeSinusoid')
 
 plt.show()
 
 
 ## Preliminary scan
 
-waveforms = np.loadtxt('C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Wave-ParticleDuality/rawData/0-0-none-test1.npy')
+waveforms = np.loadtxt('C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Wave-ParticleDuality/rawData/0-0-none-test1.npy')
 

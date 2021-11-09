@@ -25,6 +25,7 @@
 
 
 \usepackage{siunitx}
+\DeclareSIUnit{\count}{count}
 
 
 \usepackage{setspace}
@@ -49,7 +50,7 @@
 \DeclareMathOperator{\HESS}{Hess}
 \DeclareMathOperator{\DIAM}{diam}
 \newcommand{\PD}[2][]{\frac{ \partial {#1} }{ \partial {#2} } }
-\newcommand{\BVEC}[1]{\hat{\boldsymbol{#1}}}
+\newcommand{\BVEC}[1]{\hat{\mathbf{#1}}}
 \newcommand{\CONTRA}{\Rightarrow\!\Leftarrow}
 
 
@@ -77,14 +78,14 @@
 
 %Title section
 \begin{center}
-	{\large PHYS 211 Gamma Cross-Sections Lab Report}
+	{\large PHYS 211 Single-Photon Interference Lab Report}
 	
 	John Dewhurst \hspace{1cm}
-	25 October 2021
+	8 November 2021
 	
 	\vspace{1em}
 	
-	The data files, python code used for in-lab visualization and data analysis, and the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github} at /jmdewhurst/PHYS211/Q1/Wave-ParticleDuality.
+	The data files, python code used for in-lab visualization and data analysis, and the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github} at /jmdewhurst/PHYS211/Wave-ParticleDuality.
 	
 	\vspace{1em}
 \end{center}
@@ -95,9 +96,21 @@
 \section{A Note on Labeling}
 In this experiment, we varied three pieces of experimental apparatus: two half-wave plates and a linear polarizing filter. This report refers to the half-wave plate in the same arm as the Piezo-sweeping mirror as half-wave plate (A), and we refer to the half-wave plate in the arm \textit{without} the Piezo stack as half-wave plate (B). The linear polarizer is referred to as filter (C).
 
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{wpd_layout_p3.png}
+    \caption{The half-wave plate on the uppermost arm of the interferometer is referred to as plate (A), and the half-wave plate on the right arm of the interferometer is referred to as plate (B). The optic labeled `Linear Polarizer or Empty Filter Holder' is referred to as filter (C).}
+    \label{fig:layout}
+\end{figure}
+
 \section{Preliminary Dependence of Interference on Polarization}
 
 We began by setting out to verify under what polarization conditions interference takes place. We would expect, classically, that only beams sharing linear polarization would interfere. To verify this behavior, we took several trials with polarizing filter (C) removed altogether. For the first trial, half-wave plates (A) and (B) were both set to \qty{0}{\deg}, so that neither beam path would have any change to its polarization (neglecting any uneven polarization picked up from the beam splitters or mirrors). We scanned the Piezo voltage from \qty{35}{\volt} to \qty{60}{\volt}, and found that the scan was approximately two interference fringe wavelengths, as can be seen in figure \ref{fig:initScan}. This sweep length, corresponding to a length sweep of approximately \qty{1.6}{\um}, was maintained for all subsequent trials. For this preliminary scan, we used a voltage step of \qty{0.1}{\volt} and a per-step duration of \qty{1}{\sec}. In the interest of time, for all subsequent trials we used a voltage step of \qty{1}{\volt} and a per-step duration of \qty{1}{\sec}.
+
+\begin{figure}[h] \centering
+    \includegraphics[scale=.5]{Plot outputs/NoFilterFringes.png}
+    \caption{Plot (a) shows the interference fringes of coincidence rates between channels 1 and 2 and channels 1 and 3, with plates (A) and (B) positioned at \qty{0}{\deg}. Also plotted are a sinusoidal least-squares fit for each channel. The fit on channels 1 and 2 has a reduced-$\chi^2$ value of 3.3, while the fit on channels 1 and 3 has a reduced-$\chi^2$ value of 4.3. Plot (b) shows the same interference patters with plate (A) positioned at \qty{0}{\deg} and plate (B) positioned at \qty{45}{\deg}. No visible interference pattern appears. Plot (c) shows the same interference patterns, but with plates (A) and (B) positioned at \qty{20}{\deg}. Again, sinusoidal fits are plotted. The fit to channels 1 and 2 has reduced-$\chi^2$ of 0.99, and the fit to channels 1 and 3 has reduced-$\chi^2$ of 2.4. Plot (d) shows the interference patterns with plate (A) positioned at \qty{20}{\deg} and plate (B) positioned at \qty{65}{\deg}. As in plot (b), no interference pattern is visible. The uncertainty at each sample is determined using a Poissonian model: $\Delta n = \sqrt{n}$.}
+    \label{fig:scanImages}
+\end{figure}
 
 Having found an initial interference fringe, we took samples with half-wave plates (A) and (B) at 0 and 0 \unit{\deg}, respectively, and at 0 and 45 \unit{\deg}, respectively. Note that a half-wave plate is expected to change the polarization of the beam by \textit{twice} the angle between the polarization and the half-wave plate, so a difference of \qty{45}{\deg} between half-wave plates corresponds to a \qty{90}{\deg} difference in output polarization. As expected from theory, we found that a sinusoidal interference fringe was visible when the beams' polarizations were aligned, and was not visible when the beams' polarizations were perpendicular.
 
@@ -114,7 +127,7 @@ To determine what effect we would classically expect the polarizing filter to ha
 E_1 &= E_0 \exp \big[ i (\omega t - kz) \big] \,\, \BVEC{x} \\
 E_2 &= E_0 \exp \big[ i (\omega t - kz) \big] \exp[i\varphi] \,\, \BVEC{y}
 \end{align}
-Note that we have assumed each output beam has the same intensity, and that $E_2$ has picked up a relative phase of $\varphi$ over the interferometer. Also, let $\BVEC{y}$ be the vertical unit vector, and $\BVEC{x}$ be the horizontal unit vector perpendicular to the beam path. We know, assuming the Piezo's response is linear, that $\varphi$ will be directly proportional to the voltage applied to the Piezo.
+Note that we have assumed each output beam has the same intensity, and that $E_2$ has picked up a relative phase of $\varphi$ radians over the interferometer. Also, let $\BVEC{y}$ be the vertical unit vector, and $\BVEC{x}$ be the horizontal unit vector perpendicular to the beam path. We know, assuming the Piezo's response is linear, that $\varphi$ will be directly proportional to the voltage applied to the Piezo.
 
 Then, when adding a linear polarizer at filter (C), set at an angle $\theta$ relative to the $\BVEC{x}$ axis, we would expect to transform the fields as
 \begin{align}
@@ -125,15 +138,53 @@ where $\BVEC{n}$ is the unit vector in the direction of polarization of filter (
 \begin{align}
 I \propto |E|^2 
 &=
-(E_1 + E_2) (E_1^\ast E_2^\ast)
+(E_1 + E_2) (E_1^\ast + E_2^\ast)
 \\&=
 |E_0 \cos\theta|^2 + |E_0 \sin\theta|^2 + (E_0 \cos\theta)(E_0 \sin\theta) \big[ \exp(-i\varphi) + \exp(i \varphi) \big]
-\\&=
+\\&= \label{eqn:sin2theta}
 E_0^2 + E_0^2 \sin(2\theta) \cos(\varphi)
 \end{align}
 In particular, we expect the \textit{amplitude} of the measured interference fringe to have a $\sin(2\theta)$ dependency on the angle $\theta$ of the polarizer added outside the interferometer.
 
-To verify this relationship, added filter (C) and took a sample with filter rotated at \qty{10}{\deg} increments.
+To verify this relationship, we added filter (C) and took a sample with filter rotated at \qty{10}{\deg} increments, beginning at \qty{0}{\deg} and ending at \qty{180}{\deg}. For each \qty{10}{\deg} sample, we used the same voltage and time steps as above (\qty{1}{\volt}, \qty{1}{\s} per step) to obtain an interference fringe on APD 3. A least-squares regression was used to fit a sinusoidal pattern to the interference fringe on APD 3, and from that fit we extract the amplitude of the interference fringe. For the sinusoidal fits, we find a mean reduced-$\chi^2$ value of 1.14, a standard deviation of the reduced-$\chi^2$ values of 0.30, and a maximum reduced-$\chi^2$ of 1.72. No particular pattern was visible in the residual plot of any of the 19 fits, so we conclude that a sinusoidal fit was appropriate for each interference fringe.\footnote{Note that some of the interference fringes had no visible sinusoidal oscillation --- the sinus fit to these samples simply had amplitude approximately zero, so the `sine wave fit' is essentially a horizontal line.}
+
+\newpage
+\begin{figure}[h]\centering
+    \includegraphics[scale=.5]{Plot outputs/FilterFringeSinusoid.png}
+    \caption{The amplitude of the interference fringe for each sample is plotted against the angle of filter (C). Note that the sinusoid pictured is not an interference pattern, but rather shows the dependence of the amplitude of interference pattern on the angle of the external polarizer. The fit function has a reduced-$\chi^2$ value of 7.46.}
+    \label{fig:amplitudeFit}
+\end{figure}
+
+The interference fringe amplitudes are then plotted against the angle of filter (C) in figure \ref{fig:amplitudeFit}. Figure \ref{fig:amplitudeFit} also shows a sinusoidal least-squares regression applied to the amplitude data, which had a reduced-$\chi^2$ value of 7.46. The $\chi^2$ value is relatively high because each point plotted is, in fact, one parameter of a least-squares regression. This fit function is in fact a second layer of processing on the raw data, so a large amount of raw data would need to be collected for a truly precise fit. 
+
+Despite the relatively high $\chi^2$ value, the $\sin(2\theta)$ dependency predicted in equation (\ref{eqn:sin2theta}) is clearly visible in the data, and is reflected in the fit function. The sinusoidal pattern of the fringe amplitudes not only proves that an external polarizing filter can re-introduce the interference pattern (as expected classically), the fringe amplitude also has the same periodicity as was predicted classically. This demonstrates that the particles in the interferometer experience interference precisely as one would expect of classical waves.
+
+
+\section{Demonstration of Single-Photon Interaction}
+
+One goal of this experiment was to demonstrate that a photon can interfere with itself, but it has not yet been established that the observed interactions are only those of a single photon. One might explain the above results by arguing that two or more photons are in the interferometer at a time, and that in fact the observed patterns are a result of interaction between them. 
+
+Across our testing, we observed approximately \qty{93800}{\count\per\s} at APD 1, which (neglecting spurious counts) indicates that on average \num{93800} photons enter the interferometer in any given second. Each photon spends a time $\frac{L}{c}$ in the interferometer, where $L \approx \qty{.2}{\m}$ is the length of each arm of the interferometer. Assuming the interaction width of a photon is \qty{100}{\micro\m}, any width consideration of the length of a photon is negligible compared to the length of the interferometer. Thus in the time it takes for a photon to pass through the interferometer, we find an average of ${\num{93800} \cdot \frac{L}{c} = \num{6.25e-5}}$ photons entering the interferometer.
+
+\newpage
+If we model the statistics with a Poissonian distribution, we find that the probability of finding $n$ photons in a given $\frac{L}{c}$ window is, up to normalization,
+
+\begin{align}
+p(n) = \frac{\num{6.25e-5} \exp[\num{6.25e-5}]}{n!}
+\end{align}
+
+We then may calculate the likelihood of an $\frac{L}{c}$ window containing two or more photon events relative to the likelihood of it containing a single photon event:
+
+\begin{align}
+\frac{p(2+)}{p(1)}
+&=
+\frac{\sum_{n=2}^\infty p(n) }{p(1)}
+= \num{3.13e-5}
+\end{align}
+
+Thus we expect approximately one instance of two photons overlapping in the interferometer for every \num{3e4} instances of a single photon entering the interferometer. Thus only approximately \qty{3}{\count\per\s} of our data can be explained by multiple-photon interactions.
+
+We therefore conclude that the vast majority of our data results from single-photon self-interference. The results of this experiment demonstrate that even in the non-classical single-photon regime, interference still occurs and its interaction with polarization is the same as would be predicted classically, to the best of our ability to test with this experiment.
 
 
 \end{document}
