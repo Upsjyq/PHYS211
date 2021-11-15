@@ -4,5 +4,6 @@
 *.aux
 *.synctex.gz
 *.out
+*.spu
 /Lab Notebook
 /Jupyter Notebooks/.ipynb_checkpoints
