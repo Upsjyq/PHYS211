@@ -68,7 +68,7 @@ def data_fit(p0,func,xvar, yvar, err,tmi=0):
         print('{:<11}'.format(num),'|','{:<24.3e}'.format(p0[num]),'|','{:<24.3e}'.format(pf[num]),'|','{:<24.3e}'.format(pferr[num]))
     return pf, pferr, chisq, dof
 
-##
+## Data Induction & Fitting
 
 ROI = slice(700,900)
 
@@ -98,7 +98,7 @@ guess2 = [2600, 800, 30, 0, 100]
 pf1, pferr1, chisq1, dof1 = data_fit(guess1, gaussianBG, xvals, rates1, dRates1)
 pf2, pferr2, chisq2, dof2 = data_fit(guess2, gaussianBG, xvals, rates2, dRates2)
 
-
+## Plotting
 plt.close()
 
 fig, ax = plt.subplots(figsize=(14,10), nrows=2, ncols=1)
