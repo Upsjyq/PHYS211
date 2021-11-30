@@ -92,8 +92,8 @@ rates2 = counts2 / 260.15 #livetime from data tsv
 dRates2 = dCounts2/260.15
 
 
-guess1 = [1100, 800, 30, 0, 100]
-guess2 = [2600, 800, 30, 0, 100]
+guess1 = [4.2, 800, 30, 0, 100]
+guess2 = [12.7, 800, 30, 0, 100]
 
 pf1, pferr1, chisq1, dof1 = data_fit(guess1, gaussianBG, xvals, rates1, dRates1)
 pf2, pferr2, chisq2, dof2 = data_fit(guess2, gaussianBG, xvals, rates2, dRates2)
@@ -149,3 +149,25 @@ plt.savefig('C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS
 
 plt.show()
 
+##
+
+energies = np.asarray([ 0.511,1.27,1.17,1.33,0.662])
+channels = np.asarray([ 187.5495,
+ 466.96674,
+ 430.82062,
+ 487.9899,
+ 242.84674,
+])
+
+dChannels = np.asarray([0.024725644,
+ 0.12451786,
+ 0.18109183,
+ 0.19254965,
+ 0.05052431,
+])
+
+def linear (p, x):
+    return p[0] + x * p[1]
+
+guess = [0, 370]
+pf, pferr, chisq, dof = data_fit(guess, linear, energies, channels, dChannels)

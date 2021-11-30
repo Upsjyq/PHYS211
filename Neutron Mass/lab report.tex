@@ -1,0 +1,191 @@
+\documentclass[letter]{article}
+	% basic article document class
+	% use percent signs to make comments to yourself -- they will not show up.
+
+\usepackage{changepage}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+	% packages that allow mathematical formatting
+
+%\usepackage{graphicx}
+	% package that allows you to include graphics
+	
+\usepackage{float}
+\usepackage{pgfplots}
+\usepackage{subfig}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+}
+
+%\usepackage{tikz, tikzscale, pgfplots}
+%\usetikzlibrary{backgrounds}
+%\usetikzlibrary{calc}
+%\usepackage{pgfplots}
+%\usepgfplotslibrary{fillbetween}
+%
+%\tikzexternalize
+
+\usepackage{siunitx}
+\sisetup{separate-uncertainty=true}
+\DeclareSIUnit{\count}{count}
+
+
+\usepackage{setspace}
+	% package that allows you to change spacing
+
+\onehalfspacing
+	% text become 1.5 spaced
+
+\usepackage{fullpage}
+	% package that specifies normal margins
+	
+%\usepackage{showframe}
+	
+%\makeatletter
+%\newcommand{\xRightarrow}[2][]{\ext@arrow 0359\Rightarrowfill@{#1}{#2}}
+%\makeatother
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\DeclareMathOperator{\SPAN}{span}
+\DeclareMathOperator{\HESS}{Hess}
+\DeclareMathOperator{\DIAM}{diam}
+\newcommand{\PD}[2][]{\frac{ \partial {#1} }{ \partial {#2} } }
+\newcommand{\BVEC}[1]{\hat{\mathbf{#1}}}
+\newcommand{\CONTRA}{\Rightarrow\!\Leftarrow}
+
+
+%hyperref-compatible custom float tagging. Place command before caption
+\makeatletter \newcommand{\floattag}[1]{
+   \@namedef{the\@captype}{#1}%
+   \@namedef{theH\@captype}{#1}%
+   \addtocounter{\@captype}{-1}} 
+\makeatother
+
+
+\usepackage{graphicx}
+\graphicspath{ {C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Neutron Mass/Plot Output} }
+\usepackage{lipsum}
+
+\newcommand{\X}{\mathbf{x}}
+\newcommand{\Y}{\mathbf{y}}
+\newcommand{\BV}[1]{\hat{\mathbf{#1}}}
+\newcommand{\IP}[1]{\langle #1 \rangle}
+
+%a ~ can replace a space in text mode to prevent a line break at that space.
+
+\begin{document}
+	% line of code telling latex that your document is beginning
+
+%Title section
+\begin{center}
+	{\large PHYS 211 Neutron Mass Lab Report}
+	
+	John Dewhurst \hspace{1cm}
+	29 November 2021
+	
+	\vspace{1em}
+	
+	The data files and python and Julia code used for in-lab visualization and data analysis, as well as the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github} at /jmdewhurst/PHYS211/Neutron Mass.
+	
+	\vspace{1em}
+\end{center}
+	
+%end title section
+
+\section{Energy Calibration}
+
+To determine the relationship between detector channels and photon energy, we began with the neutron howitzer ports closed to minimize radiation from neutron interactions. We then placed lead shielding around the detector, and inside the shielding we place a radiation source of known emission energies. We could then observe the known emission spectra to determine the energy scale of the photodetector.
+
+We performed this procedure with a cobalt-60 source, a sodium-22 source, and a cesium-137 source. The cobalt and sodium sources each had two detectable emission peaks, and the cesium source had one peak, for a total of five known energies. Based on the three-point calibration system in the spectrum analyzer software, we adjusted the detector gain to be able to detect photons with energies up to approximately \qty{3}{\mega\electronvolt}.
+
+
+\begin{figure}[h] \centering
+    \includegraphics[width={.8\linewidth}, ]{Plot Output/Na22Calibration.png}
+    \caption{The \qty{.511}{\mega\electronvolt} emission peak of the sodium-22 spectrum. Also plotted is the Gaussian fit with linear background applied to the data, as well as the background term. The center of the Gaussian function is found at channel \num{187.45 \pm 0.02}, with overall reduced $\chi^2$ value of \num{8.73}. The other spectra used for energy calibration can be found in figure \ref{fig:CalibStack}.}
+    \label{fig:Na22Calib}
+\end{figure}
+
+To precisely determine the relationship between detector channel and energy, we fitted a Gaussian function to the spectrum of each known-energy peak. The center of the Gaussian fit can then be matched to the known energy of the photon. In order to improve the fit, a linear background term is included in the Gaussian fit. An representative Gaussian fit is shown in figure \ref{fig:Na22Calib}, and all five fits are shown in figure \ref{fig:CalibStack}.
+
+
+We then applied a linear regression (figure \ref{fig:CalibFit}) to the five energy-channel pairs, the inverse of the slope of which represents the energy per detector channel. We approximate that the fractional uncertainty in the inverse of the slope will be the same as that of the slope (i.e. we ignore any non-linearity in the detector). We thus determine that one detector channel corresponds to a photon energy of \qty{367.87 \pm 0.06}{\mega\electronvolt}.
+
+\begin{figure}[h] \centering
+    \includegraphics[width=(0.8\linewidth),]{Plot Output/calibRegression.png}
+    \caption{The five known energies plotted against the channels they appear at. Also plotted is a linear regression, with a reduced $\chi^2$ of 75. This high $\chi^2$ value is likely because the errors in the channel numbers are determined by the uncertainty in the Gaussian fit parameters, which likely leads to an underestimate of the error.}
+    \label{fig:CalibFit}
+\end{figure}
+
+
+\section{Effects of Shielding on Spectra}
+
+When opening the neutron howitzer and placing several blocks of paraffin between the neutron beam and the detector, we observe a distinct emission peak at approximately \qty{2.3}{\mega\electronvolt}. To verify that this detection energy corresponds to the formation of a deuteron, we collected spectra with various combinations of lead shielding, paraffin wax, and graphene shielding between the source and the detector. 
+
+We observed that the howitzer emitted gammas at around \qty{2.3}{\mega\electronvolt}, and that placing any material in the beam path would reduce the observed emission. In particular, this suggests that paraffin does attenuate gamma radiation, although the observed reduction in radiation was less pronounced than a comparable amount of lead.
+
+Using a small amount of lead shielding (11--25 \unit{mm}), we found, somewhat unexpectedly, that placing paraffin wax between the lead shielding and the detector significantly \textit{reduced} the detected gamma radiation. This suggests that in this low amount of shielding, interaction between the paraffin and the neutrons is less significant than the paraffin's attenuation of the gamma radiation.
+
+The lead shielding was predicted, however, to attenuate the neutron beam much less than the gamma radiation, so we increased the lead shielding to \qty{100}{mm}. We then found that gamma radiation from the open port was heavily attenuated. When placing several blocks of paraffin between the lead and the detector, we found that the \qty{2.3}{\mega\electronvolt} rates increased noticeably. To demonstrate that this increase was due to neutron-proton interaction (and not neutron-carbon) interaction, we repeated the trial, replacing the paraffin wax with a similar volume of graphene. In this trial, we observed no such increase in detection, only a reduction attributable to gamma attenuation by the graphene.
+
+\begin{figure}[h] \centering
+    \includegraphics[width=(.8\linewidth), ]{Plot Output/beamOpenComparison.png}
+    \caption{Shown are the spectra taken with the howitzer beam open with (a) \qty{100}{\mm} lead shielding and several blocks of paraffin, (b) \qty{100}{\mm} lead shielding, (c) \qty{100}{\mm} lead shielding and several blocks of graphene. A Gaussian fit with linear background is shown on each spectrum, relevant fit parameters for which can be found in table \ref{tab:BOCompVals}. The spectra show that adding paraffin to the neutron beam restores gamma radiation that has been attenuated out by the lead shielding, while no such effect appears on the addition of graphene.}
+    \label{fig:BOComparison}
+\end{figure}
+
+\begin{table}[p] \centering
+\begin{tabular}{c  c  c  c}
+    Spectrum  &  Total count rate (\unit{\count\per\second})  &  Peak position (channel)  &   reduced $\chi^2$ \\
+    \hline
+    paraffin & \num{12.60 \pm .48} & \num{808.1\pm .69} & \num{0.91} \\
+    none & \num{4.16\pm .54} & \num{805.18 \pm 2.24} & \num{1.2} \\
+    graphene & \num{2.91 \pm .51} & \num{795.56 \pm 3.21} & \num{1.0} 
+\end{tabular}
+\caption{The relevant fit parameters of the three primary spectra used in the neutron mass determination. We determine that there is a significant increase in the gamma radiation observed following the addition of paraffin wax after the lead shielding.}
+\label{tab:BOCompVals}
+\end{table}
+
+To evaluate these results numerically, we fitted a Gaussian function with linear background to the spectrum from each of these trials. The results are shown in figure \ref{fig:BOComparison}. The relevant parameters of the Gaussian fits are presented in table \ref{tab:BOCompVals}.
+
+
+\section{Mass of the Neutron}
+
+Our calculation of the mass of the neutron comes from the equation
+\begin{equation}
+p + n = d + E_\gamma
+\end{equation}
+where $p$, $n$, and $d$ represent the masses of the proton, neutron, and deuteron, respectively. We may use the literature values of the proton and deuteron mass. For the energy of the emitted gamma, we use the center of the Gaussian fit function in our trial with \qty{100}{\mm} of lead shielding and paraffin wax, so that any gamma radiation generated by interactions within the neutron howitzer would be attenuated before reaching the detector.
+
+We find that the center of the detected emission is at channel \num{808.1\pm.7}, so the energy of the photon is given by
+\begin{align*}
+E_\gamma &= \text{Ch} \cdot \text{calib}
+\\
+&=
+\qty{2.1967 \pm 0.0019}{\mega\electronvolt}
+\end{align*}
+We then use the values reported by NIST for the proton and deuteron masses to find a neutron mass
+\begin{align*}
+n &= \num{1875.61294} - \num{938.27209} + E_\gamma
+\\&=
+\qty{939.5375 \pm 0.0019}{\mega\electronvolt}
+\end{align*}
+We can compare this value to the neutron mass reported by NIST: \qty{939.56542}{\mega\electronvolt}. We find a $t$ value of $-14.6$. From this value, we would conclude that our results are not consistent with the literature. However, our experimental value of the energy is based on the location of the best-fit Gaussian function to the data. As established above, though, the measured radiation passes through a noteworthy amount of shielding before reaching the detector. Moreover, some of the radiation detected can be expected to be originating from the neutron howitzer and passing through the lead and paraffin. Since we expect higher-energy gammas to be attenuated to a greater extent than lower-energy gammas, we would expect these effects to both shift the center of the peak to a lower energy \textit{and} to increase the statistical error in the determination of the center of the Gaussian function. We can therefore conclude that our experimental energy and our statistical error are both \textit{underestimates}, which results in an anomalously low $t$ value.
+
+
+\newpage
+\begin{figure}[p] \centering
+    \includegraphics[width={.75\linewidth}, ]{Plot Output/stackedSpectrum.png}
+    \caption{The five peaks used to calibrate the energy scale of the detector. Also plotted are the Gaussian functions and linear backgrounds fitted to the data. The fits converged with reduced $\chi^2$ values of \num{8.8}, \num{2.2}, \num{1.8}, \num{1.9}, and \num{4.6}.}
+    \label{fig:CalibStack}
+\end{figure}
+
+\end{document}
+	% line of code telling latex that your document is ending. If you leave this out, you'll get an error

@@ -5,5 +5,6 @@
 *.synctex.gz
 *.out
 *.spu
+*.tikz
 /Lab Notebook
 /Jupyter Notebooks/.ipynb_checkpoints
