@@ -70,7 +70,6 @@ s = plot!(xvals, linearBG(xvals, coef(fit)), color=:gray, label="Linear backgrou
 savefig(s, joinpath(plotsPath, "Na22Calibration.png"))
 
 Plots.scalefontsizes()
-Plots.scalefontsizes(2)
 
 
 channels[1] = coef(fit)[2]
@@ -212,6 +211,8 @@ scatter(energies, channels, yerror = dChannels,
 calibPlot = plot!(energies, linear(energies, coef(fit)),
         label="linear fit", color=:red,
         show=true)
+
+savefig(calibPlot, joinpath(plotsPath, "calibRegression.png"))
 
 ##
 

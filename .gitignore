@@ -1,5 +1,7 @@
 *.pdf
 *.png
+*.jpg
+*.npz
 *.log
 *.aux
 *.synctex.gz
