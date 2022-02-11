@@ -1,0 +1,239 @@
+\documentclass[letter]{article}
+	% basic article document class
+	% use percent signs to make comments to yourself -- they will not show up.
+
+\usepackage{changepage}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+	% packages that allow mathematical formatting
+
+%\usepackage{graphicx}
+	% package that allows you to include graphics
+	
+\usepackage{float}
+\usepackage{pgfplots}
+\usepackage{subfig}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+}
+
+%\usepackage{tikz, tikzscale, pgfplots}
+%\usetikzlibrary{backgrounds}
+%\usetikzlibrary{calc}
+%\usepackage{pgfplots}
+%\usepgfplotslibrary{fillbetween}
+%
+%\tikzexternalize
+
+\usepackage{siunitx}
+\sisetup{separate-uncertainty=true, range-units=single}
+\DeclareSIUnit{\count}{count}
+
+\usepackage{mhchem}
+
+\usepackage{setspace}
+	% package that allows you to change spacing
+
+\onehalfspacing
+	% text become 1.5 spaced
+
+\usepackage{fullpage}
+	% package that specifies normal margins
+	
+%\usepackage{showframe}
+	
+%\makeatletter
+%\newcommand{\xRightarrow}[2][]{\ext@arrow 0359\Rightarrowfill@{#1}{#2}}
+%\makeatother
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\DeclareMathOperator{\SPAN}{span}
+\DeclareMathOperator{\HESS}{Hess}
+\DeclareMathOperator{\DIAM}{diam}
+\newcommand{\PD}[2][]{\frac{ \partial {#1} }{ \partial {#2} } }
+\newcommand{\BVEC}[1]{\hat{\mathbf{#1}}}
+\newcommand{\CONTRA}{\Rightarrow\!\Leftarrow}
+
+
+%hyperref-compatible custom float tagging. Place command before caption
+\makeatletter \newcommand{\floattag}[1]{
+   \@namedef{the\@captype}{#1}%
+   \@namedef{theH\@captype}{#1}%
+   \addtocounter{\@captype}{-1}} 
+\makeatother
+
+
+\usepackage{graphicx}
+\graphicspath{ {C:/Users/jdewh/OneDrive - The University of Chicago/Third Year/PHYS 211/Q1/Neutron Mass/Plot Output} }
+\usepackage{lipsum}
+
+\newcommand{\X}{\mathbf{x}}
+\newcommand{\Y}{\mathbf{y}}
+\newcommand{\BV}[1]{\hat{\mathbf{#1}}}
+\newcommand{\IP}[1]{\langle #1 \rangle}
+
+%a ~ can replace a space in text mode to prevent a line break at that space.
+
+\begin{document}
+	% line of code telling latex that your document is beginning
+
+%Title section
+\begin{center}
+	{\large PHYS 211 Optical Pumping Lab Report}
+	
+	John Dewhurst \hspace{1cm}
+	11 February 2022
+	
+	\vspace{1em}
+	
+	The Python code used for in-lab visualization and data analysis, as well as the lab notebook used for this experiment may be found on \href{https://github.com/jmdewhurst/PHYS211.git}{Github} at /jmdewhurst/PHYS211/Optical Pumping.
+	
+	\vspace{1em}
+\end{center}
+	
+%end title section
+
+\section{Calibrating the Horizontal Sweep Voltage}
+
+We began by establishing the relationship between the voltage output at the ``recorder output'' port and the voltage output across the horizontal sweep coils. To do so, we began by disconnecting the horizontal sweep coils from the control panel and attaching a digital multi-meter set as a voltmeter to the control panel in their place. We then set the voltage sweep range to zero, and at various levels of sweep voltage offset we compared the voltage measured by the multi-meter to the voltage measured by the oscilloscope attached to the ``recorder ouptut'' port. These pairs of points are plotted in figure \ref{fig:calibPlot}.
+
+\begin{figure}[h] \centering
+	\includegraphics[width={.6\linewidth},]{Plot Output/calibration fit.png}
+	\caption{Plotted are the voltages measured on the multi-meter against the voltages measured on the oscilloscope at the ``recorder output'' port. Also shown is a linear fit found by least-squares regression. The lowest voltage point is clearly outside the linear pattern, which suggests that the ``recorder output'' does not preserve linearity of voltage data at the very ends of the voltage range. This anomalous point is omitted from the linear fit. We ultimately find that the voltage across the horizontal sweep coils is given by $V_{\text{coil}} = 0.041 V_{\text{scope}} + 0.67$ volts.}
+	\label{fig:calibPlot}
+\end{figure}
+
+It should be noted that for voltages measured on the oscilloscope at approximately $\pm \qty{15}{\V}$, we cannot be confident that this linear fit holds. However, our goals in this lab may be achieved while remaining well within those bounds.
+
+
+\section{Finding the Magnetic Field Zero-Crossing}
+
+In order to measure the Zeeman splitting, we needed to first find the conditions under which the vapor cell sees no magnetic field. When no magnetic field is applied to the vapor cell, the $m_f$ hyperfine groundstates become degenerate and can decohere, which is visible as an optical depumping event. This appears as a dip in signal on the repumping photodiode, as the laser is attenuated in the vapor cell. The center of this voltage dip indicates the voltage conditions that zero out the magnetic field across the vapor cell.
+
+After setting all coil voltages to zero, we began by using a bar magnet on a gimbal as a 3-D compass to approximately determine the magnetic field at the apparatus, and roughly align the apparatus with the ambient magnetic field. We then adjusted the voltage across the vertical field coils until the compass ran horizontally. At this point the vertical field was mostly cancelled out by the applied magnetic field. 
+
+We then set the horizontal sweep voltage range to sweep approximately the control panel's full output range. At this point, we were able to see a dip in the repumping laser signal along the voltage ramp, corresponding to an approximate zero-crossing of the magnetic field in the vapor cell.
+
+Once the photodiode signal dip was visible on the oscilloscope, we adjused the vertical coil voltage until the width of the dip was minimized. We then adjusted the orientation of the apparatus to the angle that minimized the width of the absorption event. This process was repeated several times until both the vertical voltage and the alignment of the apparatus were at width-minima.
+
+We observed the zero-crossing to occur when the voltage ramp on the oscilloscope read \qty{-3.50}{\V}. We may use the previously determined calibration to convert this into the voltage across the horizontal-sweep Helmholtz coils:
+
+\begin{align*}
+	V_{\text{ coil}} &= 0.0406 \cdot V_{\text{ scope}} + 0.672
+	\\&= \qty{0.53}{\V}
+\end{align*}
+
+We then measured the current across the vertical coils, and also the resistance of the horizontal sweep coils, with a digital multimeter. For the vertical Helmholtz coils, the coil radius is the same as the spacing between the coils, and we were able to measure the current directly. We may calculate the magnitude of the vertical magnetic field applied using a standard formula relating $n$ the number of turns on each coil and $r$ the radius of the coils:
+
+\begin{align*}
+	B_v &= \left(\frac{4}{5}\right)^{\frac{3}{2}} \frac{\mu_0 n I}{r}
+	\\&=
+	\left(\frac{4}{5}\right)^{\frac{3}{2}} \frac{ (\qty{1.257e-6}{\henry\per\meter}) ( 20)(\qty{.290}{\ampere}) }{\qty{.1171}{\m}}
+	\\&=
+	\qty{45}{\micro\tesla}
+\end{align*}
+
+The calculation for the horizontal magnetic field is slightly complicated by the fact that the coils' radius is larger than their separation. We therefore use a slightly more complicated formula for the horizontal applied magnetic field, involving $x$ the distance from the center of each coil to the test point. We also use the coil voltage and resistance ($R$) to determine the current at the zero-crossing:
+
+\begin{align*}
+	B_h &= \frac{\mu_0 n I r^2}{(r^2 + x^2)^{(3/2)}}
+	=
+	\frac{\mu_0 n r^2}{(r^2 + x^2)^{(3/2)}} \frac{V_{\text{coil}}}{R}
+	\\&=
+	\frac{ (\qty{1.257e-6}{\henry\per\meter}) (11) (\qty{.1641}{\m})^2 }{ [ (\qty{.1641}{\m})^2 + (\qty{.0780}{\m})^2 ]^{(3/2)} } \, \cdot \, \frac{\qty{0.53}{\volt}}{\qty{1.1}{\ohm}}
+	\\&=
+	\qty{30}{\micro\tesla}
+\end{align*}
+
+Each of these values is consistent with the Earth's reported magnetic field of $\SIrange{25}{65}{\micro\tesla}$.
+
+
+\section{Measuring the Zeeman Splitting}
+
+The optical pumping apparatus pushes the atomic population in the vapor cell into the $m_f = 2$ ground state, where it is trapped by selection rules. However, if a photon beam resonant with the $m_f =2 \to 1$ transition addresses the vapor cell (i.e. the photon energy matches the Zeeman shift), it can depump the atomic population. This causes the repumping laser to be aborbed by the vapor cell, which appears on the photodiode as a dip in voltage. 
+
+In our system, when we apply a radio beam at a known frequency while ramping the horizontal magnetic field across the zero point, we observe --- in addition to the main zero-crossing dip --- two additional dips on each side of the zero crossing. A representative picture of the waveform on the oscilloscope is shown in figure \ref{fig:scopeImage}. The two dips on each side correspond, presumably, to the two predominant isotopes in natural rubidium. The pair of dips on each side of the zero-crossing correspond to the magnetic field being aligned or anti-aligned with the quantization axis of the vapor cell. In other words, the dips on the left correspond to the depumping beam adding energy to the atoms, and the dips on the right are from the depumping beam removing energy (or vice-versa).
+
+\begin{figure}[h] \centering
+	\includegraphics[width={0.6\linewidth}]{Scope photo.jpg}
+	\caption{An image of the five depumping events in each voltage ramp. Yellow is the voltage ramp to the horizontal sweep coils (up to calibration). The large central dip in the blue scope trace is the magnetic field zero-crossing. The four smaller dips flanking it correspond to the radio beam driving the $m_f=2 \to 1$ transition upward and downward for each of the two isotopes \ce{^{85}Rb} and \ce{^{87}Rb}.}
+	\label{fig:scopeImage}
+\end{figure}
+
+Our next task was to determine what the magnetic field is at the vapor cell for each of the radio-driven depumping events. Since the relationship between the voltage reading on the oscilloscope and the voltage across the field coils is linear, we may simply record the difference in the ramp voltage at the oscilloscope (``recorder output'') between the depumping event and the zero-crossing. We can then convert this into a difference in coil voltage between $B=0$ and $B_{\text{depump}}$ the magentic field that corresponds to the depumping event. Since the depumping beam is at a known energy, this allows us to back out the Land{\'e} g-factor $g_f$ for this transition.
+
+To this end, we adjusted the depumping beam to various frequencies. At each frequency, we recorded the difference in $V_{\text{scope}}$ between the zero-crossing and the depumping event for each of the two smaller dips. Because of the symmetry of the smaller peaks around the zero-crossing, it suffices to only consider the pair of peaks on the left of the zero-crossing. We then apply a linear fit to each of the two series, as shown in figure \ref{fig:dataFit}.
+
+The two slopes extracted from these data series are the value of the ratio $\left( \frac{V_{\text{scope}}}{f}\right)$ with the depumping frequency $f$ for the two species of rubidium.
+
+\begin{figure}[h] \centering
+	\includegraphics[width={0.6\linewidth}]{Plot Output/data fit.png}
+	\caption{Shown are the voltage difference $\Delta V_{\text{scope}}$ between the zero-crossing and each depumping event as a function of the depumping frequency. A linear least-squares fit is also shown for each series. Series 1 (red) represents the inner pair of dips, which see a fitting slope of $\qty{6.00 \pm 0.06 e-2}{\volt\per\kilo\hertz}$ with a reduced $\chi^2$ of 0.79. Series 2 (blue) represents the outer pair of dips, which have a slope of $\qty{1.047 \pm 0.006 e-1}{\volt\per\kilo\hertz}$ with a reduced $\chi^2$ of 0.75.}
+	\label{fig:dataFit}
+\end{figure}
+
+
+\newpage
+To convert these values into the Land{\'e} g-factors, we begin with the formula for the first-order Zeeman shift
+
+\begin{align*}
+	\Delta E = \mu_B \, g_f \, \Delta m_f \, B
+\end{align*}
+
+\noindent
+and rearrange, substituting the previously used Helmholtz formula for the magnetic field and the photon energy of the depumping beam where $f$ is the oscillatory frequency of the radio beam, and $M$ is the slope of the voltage calibration determined previously. Noting also that $|m_f| = 1$, we find:
+
+\begin{align*}
+	g_f &= \frac{\Delta E}{\mu_B m_f \Delta B}
+	\\&= \left( \frac{h}{\mu_B}\right) \left(  \frac{\mu_0 n r^2}{R (r^2 + x^2)^{(3/2)}}\right)^{-1} M \left( \frac{\Delta V_{\text{scope}}}{f}\right)^{-1}
+\end{align*}
+
+The error in these calculations is dominated by the uncertainty $\delta R$ in the resistance of the horizontal sweep coil. Because of the multimeter used, we were only able to verify the coil resistance as $\qty{1.1 \pm .1}{\ohm}$. The other meaningful source of error is the uncertainty in $S \coloneqq \left(\frac{\Delta V_{\text{scope}}}{f}\right)$ the linear fit to each series. The uncertainties in literature values, manufacturing tolerances, and the calibration slope are negligible against these two sources, so we omit them for clarity. Our statistical error is therefore given by
+
+\begin{align*}
+	\delta g_f &= g_f \sqrt{\left(\frac{\delta R}{R}\right)^2 + \left(\frac{\delta S}{S}\right)^2}
+\end{align*}
+
+We therefore calculate experimental Land{\'e} g-factors:
+
+\begin{align*}
+	g_f^1 &= \num{0.459 \pm 0.042} \\
+	g_f^2 &= \num{0.307 \pm 0.028}
+\end{align*}
+
+
+\vspace{0.5in}
+\subsection{Comparison with Literature Land{\'e} g-Factors}
+
+The standard literature value of the Land{\'e} g-factor is given by the following formulae:
+
+\begin{align*}
+	g_f &= g_j\frac{f(f+1) + j(j+1) - i(i+1)}{2f(f+1)} \\
+	g_j &= 1 + \frac{j(j+1) + s(s+1) - l(l+1)}{2j(j+1)}
+\end{align*}
+
+In both isotopes, the vapor cell is pumped into the ${}^2 S_{1/2}$ state, therefore $g_j = 2$. We find that $f=2$ for both isotopes as well, but for \ce{^{85}Rb} we have $i = \frac{5}{2}$, while for \ce{^{87}Rb} $i = \frac{3}{2}$. We thus find g-factors:
+
+\begin{align*}
+	g_f^{85} &= \frac{1}{3} &
+	g_f^{87} &= \frac{1}{2}
+\end{align*}
+
+By comparing these to the experimentally determined g-factors, we make the following conclusions: series~1 $(g_f = \num{0.459})$ corresponds to \ce{^{87}Rb} ($t = \num{0.97}$); and series 2 $(g_f = \num{0.307})$ corresponds to \ce{^{85}Rb} ($t = \num{0.95}$). In both cases, $t$-values are determined simply by 
+
+\begin{align*}
+	t = \frac{g_f^{\text{lit}} - g_f^{\text{lab}}}{\delta g_f^{\text{lab}}}
+\end{align*}
+
+It should be noted as well that series 2, the outer pair of dips, are noticeably \textit{deeper} than series 1, the inner pair. This suggests that series 2 corresponds to the more prevalent atomic species, which would create a larger depumping event. This conclusion is consistent with our numerical findings, as natural rubidium is approximately 72\% \ce{^{85}Rb}, which we concluded corresponds to series 2. Almost all of the other 28\% of natural rubidium is \ce{^{87}Rb}, which we concluded corresponded to the smaller pair of dips, series 1.
+
+\end{document}
+	% line of code telling latex that your document is ending. If you leave this out, you'll get an error

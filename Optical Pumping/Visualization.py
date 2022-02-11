@@ -176,14 +176,16 @@ print('Vertical zero-B-field: B = (4/5)^(3/2) mu n I / r ')
 print('\t B = %e * I '%( (4/5) **1.5 * 1.257e-6 * 20 / .1171 ))
 print('\t B = %e \n'%( (4/5) **1.5 * 1.257e-6 * 20 / .1171 * .29 ))
 
-print('Horiontal zero-B-field: ')
-print('\t B = %e * V / R' %( (4/5) **1.5 * 1.257e-6 * 11 / .1641 ))
-print('\t B = %e \n'%( (4/5) **1.5 * 1.257e-6 * 11 / .1641 * linear(calibParams, -3.5) / 1.1 ))
+print('Horiontal zero-B-field: B = mu n I r^2 / (r^2 + x^2)^(3/2)')
+print('x is given by the lab manual as: 7.80 cm ')
+print('\t B = %e * V / R' %( (1.257e-6 * 11 * .1641**2)/ (.1641**2 + .078**2)**(3/2) ) )
+print('\t B = %e \n'%( (1.257e-6 * 11 * .1641**2)/ (.1641**2 + .078**2)**(3/2) * linear(calibParams, -3.5) / 1.1 ))
 
 h = 6.626e-34
 muB = 5.7883e-9 #eV / G
 mu0 = 1.256e-6
 r = .1641
+x = 0.078
 R = 1.1
 
 # convert muB to SI base units:
@@ -191,13 +193,14 @@ muB = muB * 1.60218e-19 * 10000 # * J/eV * G/T
 
 #factor of 1000 for conversion from kHz
 coef = 1000 * h/muB / ( (4/5)**1.5 * mu0 * 11 * calibParams[1] / (r* R) ) 
+coef = 1000 * h/muB / ( mu0 * 11 * r**2 * calibParams[1] / R / (r**2 + (r/2)**2)**1.5 )
 g1 = coef/pS[1]
 err1 = coef /pS[1] * np.sqrt( (pSerr[1]/pS[1])**2 + (.1/1.1)**2 )
 g2 = coef/pL[1]
 err2 = coef/pL[1] * np.sqrt( (pLerr[1]/pL[1])**2 + (.1/1.1)**2 )
 
 print('Experimentally determined g-factors:')
-print('\t g = (h/muB) [ (4/5)^(3/2) mu0 n M / (r R) ]^-1 [Vcoil/f]^-1')
+print('\t g = (h/muB) [ mu0 n r^2 / R(r^2 + x^2)^(3/2) ]^-1 M [Vscope/f]^-1')
 print('\t g = %e [Vcoil/f]^-1'%coef)
 print('\t g1 = %f +- %f'%( g1 , err1 ))
 print('\t g2 = %f +- %f\n'%( g2, err2 ))

@@ -7,6 +7,8 @@
 *.synctex.gz
 *.out
 *.spu
+*.fls
+*fdb_latexmk
 *.tikz
 /Lab Notebook
 /Jupyter Notebooks/.ipynb_checkpoints
