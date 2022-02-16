@@ -1,0 +1,13 @@
+name: DropPinchoff
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - jupyter
+  - matplotlib
+  - ipympl
+  - pip
+  - pip:
+    - opencv_contrib_python==4.2.0.32
+prefix: /opt/anaconda3/envs/DropPinchoff
