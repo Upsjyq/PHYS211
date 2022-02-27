@@ -1,0 +1,1 @@
+C:\Users\physics\Downloads\ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg -i vid_2022-02-17_17-20-56.mp4 -f avi -vcodec mjpeg -qscale 0 vid_2022-02-17_17-20-56.avi

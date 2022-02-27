@@ -12,3 +12,9 @@
 *.tikz
 /Lab Notebook
 /Jupyter Notebooks/.ipynb_checkpoints
+/Drop Pinch-Off/Drop-Neckfinder-main
+/Drop Pinch-Off/DewhurstLleras - DPO data/FFmpeg
+*.zip
+*.7z
+*.mp4
+*.avi
